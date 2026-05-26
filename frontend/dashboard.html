@@ -5,62 +5,83 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | Simply-Ve</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background-color: #f4f7f6; color: #2b3452; padding-bottom: 80px; }
+        .navbar { background: #ffffff; box-shadow: 0 2px 15px rgba(0,0,0,0.04); }
+        .navbar-brand { font-weight: 700; color: #0d6efd !important; }
+        .card { border: none; border-radius: 16px; box-shadow: 0 5px 20px rgba(0,0,0,0.03); overflow: hidden; }
+        .table thead th { background-color: #f8f9fa; color: #6c757d; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: none; padding: 15px; }
+        .table tbody td { padding: 15px; vertical-align: middle; font-size: 0.9rem; border-bottom: 1px solid #f1f4f8; }
+        .badge { padding: 0.5em 0.8em; border-radius: 6px; font-weight: 500; font-size: 0.75rem; }
+        .btn { border-radius: 8px; font-weight: 500; transition: all 0.2s; }
+        .btn:hover { transform: translateY(-1px); }
+        .form-control, .form-select { border-radius: 8px; padding: 10px 15px; border: 1px solid #e0e0e0; }
+        .form-control:focus, .form-select:focus { box-shadow: none; border-color: #0d6efd; }
+        .modal-content { border-radius: 20px; border: none; }
+        .modal-header { border-bottom: 1px solid #f1f4f8; background-color: #fff; border-radius: 20px 20px 0 0; padding: 20px; }
+        
+        /* HP Tweaks */
+        .fab { position: fixed; bottom: 20px; right: 20px; z-index: 1000; border-radius: 50px; padding: 15px 20px; box-shadow: 0 4px 15px rgba(13, 110, 253, 0.4); font-weight: 600; display: flex; align-items: center; gap: 8px; }
+        @media (min-width: 768px) { .fab { display: none; } .mobile-padding { padding: 0 40px; } }
+        @media (max-width: 767px) { .btn-tambah-desktop { display: none; } .mobile-padding { padding: 0 15px; } .table-responsive { border-radius: 16px; border: 1px solid #f1f4f8; } }
+    </style>
 </head>
-<body class="bg-light">
+<body>
 
-    <nav class="navbar navbar-dark bg-dark mb-4">
-        <div class="container">
-            <span class="navbar-brand mb-0 h1">Simply-Ve Dashboard</span>
+    <nav class="navbar navbar-expand-lg sticky-top mb-4">
+        <div class="container mobile-padding">
+            <span class="navbar-brand">🚙 Simply-Ve</span>
             <div class="d-flex align-items-center">
-                <span class="text-light me-3" id="namaUser">Halo, User</span>
-                <button class="btn btn-outline-danger btn-sm" onclick="logout()">Keluar</button>
+                <div class="text-end me-3 d-none d-sm-block">
+                    <div class="fw-bold text-dark" id="namaUser" style="font-size: 0.9rem;">Nama User</div>
+                    <div class="text-muted" id="roleUser" style="font-size: 0.75rem; text-transform: uppercase;">Role</div>
+                </div>
+                <button class="btn btn-light btn-sm text-danger fw-bold border" onclick="logout()">Keluar</button>
             </div>
         </div>
     </nav>
 
-    <div class="container-fluid px-5"> 
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h4>Daftar Pengajuan Kendaraan</h4>
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalPengajuan">
-                + Pengajuan Baru
+    <div class="container-fluid mobile-padding"> 
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h5 class="fw-bold mb-0">Daftar Pengajuan</h5>
+            <button class="btn btn-primary btn-tambah-desktop shadow-sm" data-bs-toggle="modal" data-bs-target="#modalPengajuan">
+                + Buat Pengajuan
             </button>
         </div>
 
-        <div class="row mb-3">
-            <div class="col-md-4 mb-2">
-                <input type="text" id="inputCari" class="form-control" placeholder="🔍 Cari Nama Pemohon atau ID...">
+        <div class="row mb-3 g-2">
+            <div class="col-12 col-md-4">
+                <input type="text" id="inputCari" class="form-control" placeholder="🔍 Cari Nama / Tujuan / ID...">
             </div>
-            <div class="col-md-3 mb-2">
+            <div class="col-12 col-md-3">
                 <select id="filterStatus" class="form-select">
                     <option value="">Semua Status</option>
                     <option value="menunggu">Menunggu / Diproses</option>
-                    <option value="disetujui">Disetujui (Siap Berangkat)</option>
+                    <option value="disetujui">Disetujui</option>
                     <option value="sedang_dipakai">Sedang Dipakai</option>
-                    <option value="menunggu_konfirmasi_user">Menunggu Konfirmasi Anda</option>
+                    <option value="menunggu_konfirmasi_user">Menunggu Konfirmasi</option>
                     <option value="selesai">Selesai</option>
-                    <option value="banding">Dalam Banding</option>
+                    <option value="banding">Banding</option>
                     <option value="ditolak">Ditolak</option>
                 </select>
             </div>
         </div>
 
-        <div class="card shadow-sm">
+        <div class="card">
             <div class="card-body p-0">
                 <div class="table-responsive">
-                    <table class="table table-hover mb-0 align-middle">
-                        <thead class="table-light">
+                    <table class="table table-hover mb-0">
+                        <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Pemohon</th>
-                                <th>Tanggal</th>
-                                <th>Tujuan</th>
-                                <th>Keperluan</th>
+                                <th>Info Pemohon</th>
+                                <th>Jadwal & Tujuan</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody id="tabelPengajuan">
-                            <tr><td colspan="7" class="text-center py-4">Memuat data dari server...</td></tr>
+                            <tr><td colspan="4" class="text-center py-5 text-muted">Memuat data dari server...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -68,30 +89,34 @@
         </div>
     </div>
 
+    <button class="btn btn-primary fab" data-bs-toggle="modal" data-bs-target="#modalPengajuan">
+        <span style="font-size: 1.2rem;">+</span> Ajukan
+    </button>
+
     <div class="modal fade" id="modalPengajuan" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Form Pengajuan Kendaraan</h5>
+                    <h5 class="modal-title fw-bold">Form Pengajuan Kendaraan</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <form id="formPengajuan">
                     <div class="modal-body">
-                        <div class="row mb-3">
-                            <div class="col"><label class="form-label">Tgl Mulai</label><input type="date" class="form-control" id="tglMulai" required></div>
-                            <div class="col"><label class="form-label">Tgl Selesai</label><input type="date" class="form-control" id="tglSelesai" required></div>
+                        <div class="row g-2 mb-3">
+                            <div class="col-6"><label class="form-label small text-muted">Tgl Mulai</label><input type="date" class="form-control" id="tglMulai" required></div>
+                            <div class="col-6"><label class="form-label small text-muted">Tgl Selesai</label><input type="date" class="form-control" id="tglSelesai" required></div>
                         </div>
-                        <div class="row mb-3">
-                            <div class="col"><label class="form-label">Waktu Mulai</label><input type="time" class="form-control" id="wktMulai" required></div>
-                            <div class="col"><label class="form-label">Waktu Selesai</label><input type="time" class="form-control" id="wktSelesai" required></div>
+                        <div class="row g-2 mb-3">
+                            <div class="col-6"><label class="form-label small text-muted">Waktu Mulai</label><input type="time" class="form-control" id="wktMulai" required></div>
+                            <div class="col-6"><label class="form-label small text-muted">Waktu Selesai</label><input type="time" class="form-control" id="wktSelesai" required></div>
                         </div>
-                        <div class="mb-3"><label class="form-label">Dari (Lokasi Awal)</label><input type="text" class="form-control" id="lokasiDari" required></div>
-                        <div class="mb-3"><label class="form-label">Tujuan</label><input type="text" class="form-control" id="lokasiTujuan" required></div>
-                        <div class="mb-3"><label class="form-label">Keperluan</label><textarea class="form-control" id="keperluan" rows="2" required></textarea></div>
+                        <div class="mb-3"><label class="form-label small text-muted">Dari (Lokasi Awal)</label><input type="text" class="form-control" id="lokasiDari" required></div>
+                        <div class="mb-3"><label class="form-label small text-muted">Tujuan</label><input type="text" class="form-control" id="lokasiTujuan" required></div>
+                        <div class="mb-3"><label class="form-label small text-muted">Keperluan</label><textarea class="form-control" id="keperluan" rows="2" required></textarea></div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary" id="btnSimpan">Ajukan Sekarang</button>
+                    <div class="modal-footer border-0 pb-4 px-4">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary px-4" id="btnSimpan">Kirim Pengajuan</button>
                     </div>
                 </form>
             </div>
@@ -99,38 +124,35 @@
     </div>
 
     <div class="modal fade" id="modalApproval" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Proses Pengajuan</h5>
+                    <h5 class="modal-title fw-bold">Proses Pengajuan</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <form id="formApproval">
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label">Keputusan</label>
-                            <select class="form-select" id="opsiApproval" required>
+                            <label class="form-label small text-muted">Keputusan</label>
+                            <select class="form-select border-primary" id="opsiApproval" required>
                                 <option value="" disabled selected>Pilih keputusan...</option>
                                 <option value="setuju">Setujui Pengajuan</option>
                                 <option value="tolak">Tolak Pengajuan</option>
                             </select>
                         </div>
-                        
-                        <div class="mb-3 bg-light p-2 border rounded" id="grupNoPolisi" style="display: none;">
-                            <label class="form-label fw-bold text-primary">Tentukan Kendaraan (Wajib jika disetujui)</label>
-                            <select class="form-select border-primary" id="inputNoPolisi">
+                        <div class="mb-3 p-3 rounded-3" style="background-color: #f0f7ff; display: none;" id="grupNoPolisi">
+                            <label class="form-label fw-bold text-primary small">Pilih Armada Kendaraan</label>
+                            <select class="form-select" id="inputNoPolisi">
                                 <option value="" disabled selected>Memuat daftar kendaraan...</option>
                             </select>
                         </div>
-
                         <div class="mb-3">
-                            <label class="form-label">Keterangan / Catatan</label>
-                            <textarea class="form-control" id="keteranganApproval" rows="2" placeholder="Tuliskan catatan Anda di sini..." required></textarea>
+                            <label class="form-label small text-muted">Keterangan / Catatan</label>
+                            <textarea class="form-control" id="keteranganApproval" rows="2" required></textarea>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary" id="btnSimpanApproval">Simpan Keputusan</button>
+                    <div class="modal-footer border-0 pb-4 px-4">
+                        <button type="submit" class="btn btn-primary w-100" id="btnSimpanApproval">Simpan Keputusan</button>
                     </div>
                 </form>
             </div>
@@ -138,183 +160,93 @@
     </div>
 
     <div class="modal fade" id="modalKonfirmasi" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content border-warning">
-                <div class="modal-header bg-warning text-dark">
-                    <h5 class="modal-title fw-bold">Review Kendaraan Kembali</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-warning"><h5 class="modal-title fw-bold text-dark">Review Kendaraan Kembali</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
                 <form id="formKonfirmasi">
-                    <div class="modal-body bg-light">
-                        <div class="alert alert-secondary py-2 mb-3">
-                            <small>Sistem menerima laporan inspeksi dari Security saat Anda mengembalikan mobil. Silakan periksa datanya.</small>
+                    <div class="modal-body">
+                        <div class="p-3 bg-light rounded-3 mb-3 text-center">
+                            <div class="row">
+                                <div class="col-6 border-end">Sisa BBM<br><b class="text-success fs-5" id="reviewBbmAkhir"></b></div>
+                                <div class="col-6">Odometer<br><b class="text-primary fs-5" id="reviewOdoAkhir"></b></div>
+                            </div>
                         </div>
-                        
-                        <table class="table table-sm table-bordered bg-white mb-3">
-                            <tr><th class="w-50 bg-light">Odometer Akhir</th><td id="reviewOdoAkhir" class="fw-bold"></td></tr>
-                            <tr><th class="bg-light">Sisa BBM Akhir</th><td id="reviewBbmAkhir" class="fw-bold"></td></tr>
-                        </table>
-                        
+                        <div class="mb-3"><label class="form-label small text-muted">Catatan Security:</label><div class="p-2 bg-white border rounded text-danger fst-italic" id="reviewCatatanSecurity"></div></div>
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Catatan Kondisi dari Security:</label>
-                            <div class="p-2 border rounded bg-white text-danger fst-italic" id="reviewCatatanSecurity"></div>
-                        </div>
-
-                        <hr>
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Apakah Anda menyetujui laporan di atas?</label>
-                            <select class="form-select border-warning shadow-sm" id="opsiKonfirmasi" onchange="toggleBanding()" required>
+                            <label class="form-label fw-bold">Setuju dengan laporan di atas?</label>
+                            <select class="form-select border-warning" id="opsiKonfirmasi" onchange="toggleBanding()" required>
                                 <option value="" disabled selected>Pilih sikap Anda...</option>
-                                <option value="setuju">Ya, Data & Kondisi Benar (E-Signature)</option>
-                                <option value="banding">Tidak, Saya Ingin Mengajukan Banding</option>
+                                <option value="setuju">Ya, Setuju (Tanda Tangan Digital)</option>
+                                <option value="banding">Tidak, Ajukan Banding</option>
                             </select>
                         </div>
-
-                        <div class="mb-2" id="grupBanding" style="display: none;">
-                            <label class="form-label fw-bold text-danger">Tuliskan Alasan / Sanggahan Anda:</label>
-                            <textarea class="form-control border-danger" id="inputAlasanBanding" rows="3" placeholder="Contoh: Baret tersebut sudah ada sebelum saya pakai..."></textarea>
-                        </div>
+                        <div class="mb-2" id="grupBanding" style="display: none;"><label class="form-label text-danger small">Alasan Sanggahan:</label><textarea class="form-control border-danger" id="inputAlasanBanding" rows="2"></textarea></div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Nanti Saja</button>
-                        <button type="submit" class="btn btn-warning fw-bold" id="btnSimpanKonfirmasi">Kirim Konfirmasi</button>
-                    </div>
+                    <div class="modal-footer border-0"><button type="submit" class="btn btn-warning w-100 fw-bold" id="btnSimpanKonfirmasi">Kirim Konfirmasi</button></div>
                 </form>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="modalFoto" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-xl"> 
-            <div class="modal-content">
-                <div class="modal-header bg-dark text-white">
-                    <h5 class="modal-title">Dokumentasi Kondisi Kendaraan</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body bg-light">
-                    <h6 class="bg-primary text-white p-2 rounded fw-bold mb-3">Kondisi Keluar (Sebelum Pemakaian)</h6>
-                    <div class="row text-center mb-4">
-                        <div class="col-md-3"><h6 class="small fw-bold">Depan</h6><img id="imgAwalDepan" src="" class="img-fluid rounded border shadow-sm" style="height: 150px; object-fit: cover; width: 100%;"></div>
-                        <div class="col-md-3"><h6 class="small fw-bold">Belakang</h6><img id="imgAwalBelakang" src="" class="img-fluid rounded border shadow-sm" style="height: 150px; object-fit: cover; width: 100%;"></div>
-                        <div class="col-md-3"><h6 class="small fw-bold">Kiri</h6><img id="imgAwalKiri" src="" class="img-fluid rounded border shadow-sm" style="height: 150px; object-fit: cover; width: 100%;"></div>
-                        <div class="col-md-3"><h6 class="small fw-bold">Kanan</h6><img id="imgAwalKanan" src="" class="img-fluid rounded border shadow-sm" style="height: 150px; object-fit: cover; width: 100%;"></div>
-                    </div>
+    <div class="modal fade" id="modalFoto" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Foto Kendaraan</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body text-center"><p class="text-muted small">Fitur foto dioptimalkan untuk tampilan mobile.</p><div class="row g-2"><div class="col-6"><img id="imgAwalDepan" src="" class="img-fluid rounded border"></div><div class="col-6"><img id="imgAkhirDepan" src="" class="img-fluid rounded border"></div></div></div></div></div></div>
 
-                    <h6 class="bg-success text-white p-2 rounded fw-bold mb-3">Kondisi Masuk (Setelah Pemakaian)</h6>
-                    <div class="row text-center">
-                        <div class="col-md-3"><h6 class="small fw-bold">Depan</h6><img id="imgAkhirDepan" src="" class="img-fluid rounded border shadow-sm" style="height: 150px; object-fit: cover; width: 100%;"></div>
-                        <div class="col-md-3"><h6 class="small fw-bold">Belakang</h6><img id="imgAkhirBelakang" src="" class="img-fluid rounded border shadow-sm" style="height: 150px; object-fit: cover; width: 100%;"></div>
-                        <div class="col-md-3"><h6 class="small fw-bold">Kiri</h6><img id="imgAkhirKiri" src="" class="img-fluid rounded border shadow-sm" style="height: 150px; object-fit: cover; width: 100%;"></div>
-                        <div class="col-md-3"><h6 class="small fw-bold">Kanan</h6><img id="imgAkhirKanan" src="" class="img-fluid rounded border shadow-sm" style="height: 150px; object-fit: cover; width: 100%;"></div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup Galeri</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="config.js"></script>
     <script>
-        let currentApprovalId = null;
-        let currentApprovalType = null; 
-        let currentKonfirmasiId = null; // Menyimpan ID pengajuan yang sedang di-review
-        let dataGlobalPengajuan = []; 
+        let currentApprovalId = null, currentApprovalType = null, currentKonfirmasiId = null, dataGlobalPengajuan = []; 
+        const userNik = localStorage.getItem('user_nik'), rolePengguna = localStorage.getItem('user_role'); 
+        if (!userNik) { window.location.href = "index.html"; }
 
-        const userNik = localStorage.getItem('user_nik');
-        const rolePengguna = localStorage.getItem('user_role'); 
-
-        if (!userNik) {
-            alert("Sesi Anda habis. Silakan login kembali.");
-            window.location.href = "index.html"; 
-        }
-
-        document.getElementById('namaUser').innerText = `Halo, ${localStorage.getItem('user_nama')} (${rolePengguna.toUpperCase()})`;
+        document.getElementById('namaUser').innerText = localStorage.getItem('user_nama');
+        document.getElementById('roleUser').innerText = rolePengguna;
 
         function logout() { localStorage.clear(); window.location.href = "index.html"; }
 
-        // ==========================================
-        // 1. MENGAMBIL DATA PENGAJUAN
-        // ==========================================
         async function muatDataPengajuan() {
             try {
-                const response = await fetch(`${API_BASE_URL}/api/pengajuan`);
-                const result = await response.json();
-                
+                const response = await fetch('/api/pengajuan'); const result = await response.json();
                 let dataTampil = result.data || [];
                 if (rolePengguna === 'karyawan') { dataTampil = dataTampil.filter(item => item.nik_pemohon === userNik); }
-                dataGlobalPengajuan = dataTampil;
-                renderTabel();
-            } catch (error) { document.getElementById('tabelPengajuan').innerHTML = "<tr><td colspan='7' class='text-center text-danger py-4'>Gagal memuat data dari server.</td></tr>"; }
+                dataGlobalPengajuan = dataTampil; renderTabel();
+            } catch (error) { document.getElementById('tabelPengajuan').innerHTML = "<tr><td colspan='4' class='text-center text-danger'>Gagal memuat.</td></tr>"; }
         }
 
-        // ==========================================
-        // 2. MENGGAMBAR TABEL & MENENTUKAN TOMBOL
-        // ==========================================
         function renderTabel() {
-            const tbody = document.getElementById('tabelPengajuan');
-            tbody.innerHTML = ""; 
-            
-            const kataKunci = document.getElementById('inputCari').value.toLowerCase();
-            const statusFilter = document.getElementById('filterStatus').value;
-
+            const tbody = document.getElementById('tabelPengajuan'); tbody.innerHTML = ""; 
+            const kataKunci = document.getElementById('inputCari').value.toLowerCase(), statusFilter = document.getElementById('filterStatus').value;
             const dataTerfilter = dataGlobalPengajuan.filter(item => {
-                const nama = (item.nama_pemohon || "").toLowerCase();
-                const idString = item.id.toString();
-                const cocokCari = nama.includes(kataKunci) || idString.includes(kataKunci);
-                const cocokStatus = statusFilter === "" || item.status_pengajuan === statusFilter;
-                return cocokCari && cocokStatus;
+                return ((item.nama_pemohon||"").toLowerCase().includes(kataKunci) || (item.tujuan||"").toLowerCase().includes(kataKunci) || item.id.toString().includes(kataKunci)) && 
+                       (statusFilter === "" || item.status_pengajuan === statusFilter);
             });
 
-            if (dataTerfilter.length === 0) {
-                tbody.innerHTML = "<tr><td colspan='7' class='text-center py-4'>Data tidak ditemukan.</td></tr>"; return;
-            }
+            if (dataTerfilter.length === 0) { tbody.innerHTML = "<tr><td colspan='4' class='text-center py-4 text-muted'>Belum ada data.</td></tr>"; return; }
 
             dataTerfilter.forEach(item => {
-                let warnaStatus = "bg-secondary";
-                if(item.status_pengajuan === "disetujui") warnaStatus = "bg-primary";
-                if(item.status_pengajuan === "ditolak") warnaStatus = "bg-danger";
-                if(item.status_pengajuan.includes("menunggu")) warnaStatus = "bg-warning text-dark";
-                if(item.status_pengajuan === "sedang_dipakai") warnaStatus = "bg-info text-dark";
-                if(item.status_pengajuan === "selesai") warnaStatus = "bg-success";
-                if(item.status_pengajuan === "banding") warnaStatus = "bg-danger";
+                let w="bg-secondary text-white";
+                if(item.status_pengajuan==="disetujui") w="bg-primary text-white";
+                if(item.status_pengajuan==="ditolak") w="bg-danger text-white";
+                if(item.status_pengajuan.includes("menunggu")) w="bg-warning text-dark";
+                if(item.status_pengajuan==="sedang_dipakai") w="bg-info text-dark";
+                if(item.status_pengajuan==="selesai") w="bg-success text-white";
 
-                let htmlTombol = "";
-
-                // Tombol PDF & Foto
+                let btn="";
                 if (["disetujui", "sedang_dipakai", "menunggu_konfirmasi_user", "selesai", "banding"].includes(item.status_pengajuan)) {
-                    htmlTombol += `<button class="btn btn-sm btn-success me-1 mb-1" onclick="keHalamanCetak(${item.id})">Cetak PDF</button>`;
+                    btn += `<button class="btn btn-sm btn-outline-success border-0 me-1" onclick="keHalamanCetak(${item.id})">📄 Cetak</button>`;
                 }
-                if (["sedang_dipakai", "menunggu_konfirmasi_user", "selesai", "banding"].includes(item.status_pengajuan)) {
-                    htmlTombol += `<button class="btn btn-sm btn-info text-white me-1 mb-1" onclick="bukaModalFoto(${item.id})">Lihat Foto</button>`;
-                }
-
-                // Tombol Proses GA / Manager
                 if ((item.status_pengajuan === "menunggu" || item.status_pengajuan === "menunggu_manager") && rolePengguna === "manager") {
-                    htmlTombol += `<button class="btn btn-sm btn-primary" onclick="bukaModalApproval(${item.id}, '${item.status_pengajuan}')">Proses (Manager)</button>`;
+                    btn += `<button class="btn btn-sm btn-primary" onclick="bukaModalApproval(${item.id}, '${item.status_pengajuan}')">Tinjau</button>`;
                 } else if (item.status_pengajuan === "menunggu_ga" && rolePengguna === "ga") {
-                    htmlTombol += `<button class="btn btn-sm btn-primary" onclick="bukaModalApproval(${item.id}, '${item.status_pengajuan}')">Proses (GA)</button>`;
+                    btn += `<button class="btn btn-sm btn-primary" onclick="bukaModalApproval(${item.id}, '${item.status_pengajuan}')">Tinjau (GA)</button>`;
                 }
-
-                // FITUR BARU: TOMBOL REVIEW UNTUK USER
                 if (item.status_pengajuan === "menunggu_konfirmasi_user" && item.nik_pemohon === userNik) {
-                    htmlTombol += `<button class="btn btn-sm btn-warning fw-bold text-dark me-1 mb-1" onclick="bukaModalKonfirmasi(${item.id})">Review & Konfirmasi</button>`;
+                    btn += `<button class="btn btn-sm btn-warning fw-bold" onclick="bukaModalKonfirmasi(${item.id})">Konfirmasi</button>`;
                 }
-
-                if (htmlTombol === "") htmlTombol = "-";
-
-                let labelStatus = item.status_pengajuan.replace(/_/g, ' ').toUpperCase();
+                if (btn === "") btn = `<span class="text-muted small">-</span>`;
 
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td>#${item.id}</td>
-                    <td><strong>${item.nama_pemohon}</strong><br><small class="text-muted">${item.nik_pemohon}</small></td>
-                    <td>${item.tgl_mulai}</td>
-                    <td>${item.tujuan}</td>
-                    <td>${item.keperluan}</td>
-                    <td><span class="badge ${warnaStatus}">${labelStatus}</span></td>
-                    <td>${htmlTombol}</td>
+                    <td><div class="fw-bold">#${item.id} - ${item.nama_pemohon}</div><div class="small text-muted">${item.merek_kendaraan || "Belum ada mobil"}</div></td>
+                    <td><div class="small fw-semibold">${item.tgl_mulai}</div><div class="small text-muted">${item.tujuan}</div></td>
+                    <td><span class="badge ${w}">${item.status_pengajuan.replace(/_/g, ' ').toUpperCase()}</span></td>
+                    <td>${btn}</td>
                 `;
                 tbody.appendChild(tr);
             });
@@ -323,145 +255,15 @@
         document.getElementById('inputCari').addEventListener('input', renderTabel);
         document.getElementById('filterStatus').addEventListener('change', renderTabel);
 
-        // ==========================================
-        // 3. FUNGSI KONFIRMASI PEMOHON (E-SIGNATURE)
-        // ==========================================
-        function bukaModalKonfirmasi(id) {
-            currentKonfirmasiId = id;
-            document.getElementById('formKonfirmasi').reset();
-            toggleBanding(); // Pastikan form banding tersembunyi
-
-            // Cari data pengajuan dan tampilkan rangkuman
-            const data = dataGlobalPengajuan.find(x => x.id === id);
-            document.getElementById('reviewOdoAkhir').innerText = `${data.odo_akhir} KM`;
-            document.getElementById('reviewBbmAkhir').innerText = `${data.bbm_akhir}%`;
-            document.getElementById('reviewCatatanSecurity').innerText = (data.catatan_security && data.catatan_security !== "-") ? data.catatan_security : "Tidak ada catatan khusus (Aman).";
-
-            new bootstrap.Modal(document.getElementById('modalKonfirmasi')).show();
-        }
-
-        function toggleBanding() {
-            const isBanding = document.getElementById('opsiKonfirmasi').value === "banding";
-            document.getElementById('grupBanding').style.display = isBanding ? "block" : "none";
-            document.getElementById('inputAlasanBanding').required = isBanding;
-        }
-
-        document.getElementById('formKonfirmasi').addEventListener('submit', async function(event) {
-            event.preventDefault();
-            const btnSimpan = document.getElementById('btnSimpanKonfirmasi');
-            btnSimpan.innerText = "Memproses..."; btnSimpan.disabled = true;
-
-            const isSetuju = document.getElementById('opsiKonfirmasi').value === "setuju";
-            
-            // Format Timestamp Rapi (Contoh: 16/05/2026, 14:30:00 WIB)
-            const waktuSekarang = new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' }) + ' WIB';
-
-            const payload = {
-                id_pengajuan: currentKonfirmasiId,
-                is_setuju: isSetuju,
-                alasan_banding: isSetuju ? "" : document.getElementById('inputAlasanBanding').value,
-                timestamp_setuju: isSetuju ? waktuSekarang : ""
-            };
-
-            try {
-                const response = await fetch(`${API_BASE_URL}/api/konfirmasi-pemohon`, {
-                    method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
-                });
-                if (response.ok) {
-                    alert(isSetuju ? "Terima kasih! Dokumen telah sah disetujui secara digital." : "Pengajuan Banding telah dikirimkan ke pihak GA.");
-                    bootstrap.Modal.getInstance(document.getElementById('modalKonfirmasi')).hide();
-                    muatDataPengajuan(); 
-                } else {
-                    alert("Gagal memproses konfirmasi.");
-                }
-            } catch (error) { alert("Kesalahan jaringan."); } 
-            finally { btnSimpan.innerText = "Kirim Konfirmasi"; btnSimpan.disabled = false; }
-        });
-
-
-        // ==========================================
-        // 4. FUNGSI-FUNGSI STANDAR LAINNYA
-        // ==========================================
-        async function muatDataKendaraan() {
-            try {
-                const response = await fetch(`${API_BASE_URL}/api/kendaraan`);
-                const result = await response.json();
-                const dropdown = document.getElementById('inputNoPolisi');
-                dropdown.innerHTML = '<option value="" disabled selected>Pilih kendaraan...</option>';
-                if (result.data && result.data.length > 0) {
-                    result.data.forEach(mobil => {
-                        const opsi = document.createElement('option');
-                        opsi.value = mobil.no_polisi;
-                        opsi.setAttribute('data-merek', mobil.merk_tipe || "-");
-                        opsi.innerText = `${mobil.merk_tipe || "-"} - Plat: ${mobil.no_polisi}`;
-                        dropdown.appendChild(opsi);
-                    });
-                }
-            } catch (error) { console.error(error); }
-        }
-
-        function bukaModalFoto(id) {
-            const data = dataGlobalPengajuan.find(x => x.id === id);
-            const placeholder = "https://via.placeholder.com/400x300?text=Tidak+Ada+Foto";
-            document.getElementById('imgAwalDepan').src = data.foto_awal_depan || placeholder;
-            document.getElementById('imgAwalBelakang').src = data.foto_awal_belakang || placeholder;
-            document.getElementById('imgAwalKiri').src = data.foto_awal_kiri || placeholder;
-            document.getElementById('imgAwalKanan').src = data.foto_awal_kanan || placeholder;
-            document.getElementById('imgAkhirDepan').src = data.foto_akhir_depan || placeholder;
-            document.getElementById('imgAkhirBelakang').src = data.foto_akhir_belakang || placeholder;
-            document.getElementById('imgAkhirKiri').src = data.foto_akhir_kiri || placeholder;
-            document.getElementById('imgAkhirKanan').src = data.foto_akhir_kanan || placeholder;
-            new bootstrap.Modal(document.getElementById('modalFoto')).show();
-        }
-
-        function keHalamanCetak(idPengajuan) {
-            localStorage.setItem('id_cetak', idPengajuan);
-            window.location.href = "cetak.html";
-        }
-
-        document.getElementById('formPengajuan').addEventListener('submit', async function(event) {
-            event.preventDefault(); 
-            const btnSimpan = document.getElementById('btnSimpan'); btnSimpan.disabled = true;
-            const dataPengajuan = {
-                nik_pemohon: localStorage.getItem('user_nik'), tgl_mulai: document.getElementById('tglMulai').value,
-                tgl_selesai: document.getElementById('tglSelesai').value, waktu_mulai: document.getElementById('wktMulai').value,
-                waktu_selesai: document.getElementById('wktSelesai').value, lokasi_awal: document.getElementById('lokasiDari').value, 
-                tujuan: document.getElementById('lokasiTujuan').value, keperluan: document.getElementById('keperluan').value
-            };
-            try {
-                const response = await fetch(`${API_BASE_URL}/api/pengajuan`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dataPengajuan) });
-                if (response.ok) { alert("Berhasil!"); document.querySelector('#modalPengajuan .btn-close').click(); muatDataPengajuan(); } 
-            } catch (error) { alert("Kesalahan jaringan."); } finally { btnSimpan.disabled = false; }
-        });
-
-        function bukaModalApproval(id, status) {
-            currentApprovalId = id; document.getElementById('formApproval').reset(); 
-            currentApprovalType = (status === 'menunggu' || status === 'menunggu_manager') ? 'manager' : 'ga';
-            document.getElementById('grupNoPolisi').style.display = (currentApprovalType === 'ga') ? 'block' : 'none';
-            document.getElementById('inputNoPolisi').required = (currentApprovalType === 'ga');
-            new bootstrap.Modal(document.getElementById('modalApproval')).show();
-        }
-
-        document.getElementById('formApproval').addEventListener('submit', async function(event) {
-            event.preventDefault(); const btnSimpan = document.getElementById('btnSimpanApproval'); btnSimpan.disabled = true;
-            const isSetuju = document.getElementById('opsiApproval').value === "setuju";
-            const dataApproval = { id_pengajuan: currentApprovalId, is_approved: isSetuju, keterangan: document.getElementById('keteranganApproval').value };
-            let endpointUrl = `${API_BASE_URL}/api/approval-manager`;
-
-            if (currentApprovalType === 'manager') { dataApproval.nama_manager = localStorage.getItem('user_nama'); } 
-            else if (currentApprovalType === 'ga') {
-                endpointUrl = `${API_BASE_URL}/api/approval-ga`; dataApproval.nama_ga = localStorage.getItem('user_nama');
-                const selectMobil = document.getElementById('inputNoPolisi');
-                dataApproval.no_polisi = isSetuju ? selectMobil.value : "-";
-                dataApproval.merek_kendaraan = isSetuju ? selectMobil.options[selectMobil.selectedIndex].getAttribute('data-merek') : "-";
-            }
-
-            try {
-                const response = await fetch(endpointUrl, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dataApproval) });
-                if (response.ok) { alert("Keputusan disimpan!"); bootstrap.Modal.getInstance(document.getElementById('modalApproval')).hide(); muatDataPengajuan(); }
-            } catch (error) { alert("Kesalahan."); } finally { btnSimpan.disabled = false; }
-        });
-
+        /* --- SISA FUNGSI JS SAMA PERSIS DENGAN SEBELUMNYA --- */
+        function bukaModalKonfirmasi(id) { currentKonfirmasiId = id; document.getElementById('formKonfirmasi').reset(); toggleBanding(); const data = dataGlobalPengajuan.find(x => x.id === id); document.getElementById('reviewOdoAkhir').innerText = `${data.odo_akhir} KM`; document.getElementById('reviewBbmAkhir').innerText = `${data.bbm_akhir}%`; document.getElementById('reviewCatatanSecurity').innerText = (data.catatan_security && data.catatan_security !== "-") ? data.catatan_security : "Aman"; new bootstrap.Modal(document.getElementById('modalKonfirmasi')).show(); }
+        function toggleBanding() { const isBanding = document.getElementById('opsiKonfirmasi').value === "banding"; document.getElementById('grupBanding').style.display = isBanding ? "block" : "none"; document.getElementById('inputAlasanBanding').required = isBanding; }
+        document.getElementById('formKonfirmasi').addEventListener('submit', async function(event) { event.preventDefault(); const btnSimpan = document.getElementById('btnSimpanKonfirmasi'); btnSimpan.disabled = true; const isSetuju = document.getElementById('opsiKonfirmasi').value === "setuju"; const payload = { id_pengajuan: currentKonfirmasiId, is_setuju: isSetuju, alasan_banding: isSetuju ? "" : document.getElementById('inputAlasanBanding').value, timestamp_setuju: isSetuju ? new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' }) + ' WIB' : "" }; try { await fetch('/api/konfirmasi-pemohon', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); alert("Berhasil."); bootstrap.Modal.getInstance(document.getElementById('modalKonfirmasi')).hide(); muatDataPengajuan(); } finally { btnSimpan.disabled = false; } });
+        async function muatDataKendaraan() { try { const response = await fetch('/api/kendaraan'); const result = await response.json(); const dropdown = document.getElementById('inputNoPolisi'); dropdown.innerHTML = '<option value="" disabled selected>Pilih kendaraan...</option>'; result.data.forEach(mobil => { const opsi = document.createElement('option'); opsi.value = mobil.no_polisi; opsi.setAttribute('data-merek', mobil.merk_tipe || "-"); opsi.innerText = `${mobil.merk_tipe || "-"} (${mobil.no_polisi})`; dropdown.appendChild(opsi); }); } catch (error) {} }
+        function keHalamanCetak(idPengajuan) { localStorage.setItem('id_cetak', idPengajuan); window.location.href = "cetak.html"; }
+        document.getElementById('formPengajuan').addEventListener('submit', async function(event) { event.preventDefault(); const btnSimpan = document.getElementById('btnSimpan'); btnSimpan.disabled = true; const dataPengajuan = { nik_pemohon: localStorage.getItem('user_nik'), tgl_mulai: document.getElementById('tglMulai').value, tgl_selesai: document.getElementById('tglSelesai').value, waktu_mulai: document.getElementById('wktMulai').value, waktu_selesai: document.getElementById('wktSelesai').value, lokasi_awal: document.getElementById('lokasiDari').value, tujuan: document.getElementById('lokasiTujuan').value, keperluan: document.getElementById('keperluan').value }; try { const response = await fetch('/api/pengajuan', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dataPengajuan) }); if (response.ok) { alert("Berhasil!"); document.querySelector('#modalPengajuan .btn-close').click(); muatDataPengajuan(); } else { const err = await response.json(); alert("SISTEM MENOLAK: " + err.detail); } } finally { btnSimpan.disabled = false; } });
+        function bukaModalApproval(id, status) { currentApprovalId = id; document.getElementById('formApproval').reset(); currentApprovalType = (status === 'menunggu' || status === 'menunggu_manager') ? 'manager' : 'ga'; document.getElementById('grupNoPolisi').style.display = (currentApprovalType === 'ga') ? 'block' : 'none'; document.getElementById('inputNoPolisi').required = (currentApprovalType === 'ga'); new bootstrap.Modal(document.getElementById('modalApproval')).show(); }
+        document.getElementById('formApproval').addEventListener('submit', async function(event) { event.preventDefault(); const btnSimpan = document.getElementById('btnSimpanApproval'); btnSimpan.disabled = true; const isSetuju = document.getElementById('opsiApproval').value === "setuju"; const dataApproval = { id_pengajuan: currentApprovalId, is_approved: isSetuju, keterangan: document.getElementById('keteranganApproval').value }; let endpointUrl = '/api/approval-manager'; if (currentApprovalType === 'manager') { dataApproval.nama_manager = localStorage.getItem('user_nama'); } else if (currentApprovalType === 'ga') { endpointUrl = '/api/approval-ga'; dataApproval.nama_ga = localStorage.getItem('user_nama'); const selectMobil = document.getElementById('inputNoPolisi'); dataApproval.no_polisi = isSetuju ? selectMobil.value : "-"; dataApproval.merek_kendaraan = isSetuju ? selectMobil.options[selectMobil.selectedIndex].getAttribute('data-merek') : "-"; } try { const response = await fetch(endpointUrl, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dataApproval) }); if (response.ok) { alert("Disimpan!"); bootstrap.Modal.getInstance(document.getElementById('modalApproval')).hide(); muatDataPengajuan(); } else { const err = await response.json(); alert("PENOLAKAN: " + err.detail); } } finally { btnSimpan.disabled = false; } });
         window.onload = () => { muatDataPengajuan(); if (rolePengguna === 'ga') muatDataKendaraan(); };
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
