@@ -20,8 +20,6 @@
         .form-control:focus, .form-select:focus { box-shadow: none; border-color: #0d6efd; }
         .modal-content { border-radius: 20px; border: none; }
         .modal-header { border-bottom: 1px solid #f1f4f8; background-color: #fff; border-radius: 20px 20px 0 0; padding: 20px; }
-        
-        /* HP Tweaks */
         .fab { position: fixed; bottom: 20px; right: 20px; z-index: 1000; border-radius: 50px; padding: 15px 20px; box-shadow: 0 4px 15px rgba(13, 110, 253, 0.4); font-weight: 600; display: flex; align-items: center; gap: 8px; }
         @media (min-width: 768px) { .fab { display: none; } .mobile-padding { padding: 0 40px; } }
         @media (max-width: 767px) { .btn-tambah-desktop { display: none; } .mobile-padding { padding: 0 15px; } .table-responsive { border-radius: 16px; border: 1px solid #f1f4f8; } }
@@ -188,8 +186,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modalFoto" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Foto Kendaraan</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body text-center"><p class="text-muted small">Fitur foto dioptimalkan untuk tampilan mobile.</p><div class="row g-2"><div class="col-6"><img id="imgAwalDepan" src="" class="img-fluid rounded border"></div><div class="col-6"><img id="imgAkhirDepan" src="" class="img-fluid rounded border"></div></div></div></div></div></div>
-
+    <script src="config.js"></script>
     <script>
         let currentApprovalId = null, currentApprovalType = null, currentKonfirmasiId = null, dataGlobalPengajuan = []; 
         const userNik = localStorage.getItem('user_nik'), rolePengguna = localStorage.getItem('user_role'); 
@@ -202,7 +199,7 @@
 
         async function muatDataPengajuan() {
             try {
-                const response = await fetch('/api/pengajuan'); const result = await response.json();
+                const response = await fetch(API_URL + '/api/pengajuan'); const result = await response.json();
                 let dataTampil = result.data || [];
                 if (rolePengguna === 'karyawan') { dataTampil = dataTampil.filter(item => item.nik_pemohon === userNik); }
                 dataGlobalPengajuan = dataTampil; renderTabel();
@@ -255,15 +252,56 @@
         document.getElementById('inputCari').addEventListener('input', renderTabel);
         document.getElementById('filterStatus').addEventListener('change', renderTabel);
 
-        /* --- SISA FUNGSI JS SAMA PERSIS DENGAN SEBELUMNYA --- */
         function bukaModalKonfirmasi(id) { currentKonfirmasiId = id; document.getElementById('formKonfirmasi').reset(); toggleBanding(); const data = dataGlobalPengajuan.find(x => x.id === id); document.getElementById('reviewOdoAkhir').innerText = `${data.odo_akhir} KM`; document.getElementById('reviewBbmAkhir').innerText = `${data.bbm_akhir}%`; document.getElementById('reviewCatatanSecurity').innerText = (data.catatan_security && data.catatan_security !== "-") ? data.catatan_security : "Aman"; new bootstrap.Modal(document.getElementById('modalKonfirmasi')).show(); }
         function toggleBanding() { const isBanding = document.getElementById('opsiKonfirmasi').value === "banding"; document.getElementById('grupBanding').style.display = isBanding ? "block" : "none"; document.getElementById('inputAlasanBanding').required = isBanding; }
-        document.getElementById('formKonfirmasi').addEventListener('submit', async function(event) { event.preventDefault(); const btnSimpan = document.getElementById('btnSimpanKonfirmasi'); btnSimpan.disabled = true; const isSetuju = document.getElementById('opsiKonfirmasi').value === "setuju"; const payload = { id_pengajuan: currentKonfirmasiId, is_setuju: isSetuju, alasan_banding: isSetuju ? "" : document.getElementById('inputAlasanBanding').value, timestamp_setuju: isSetuju ? new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' }) + ' WIB' : "" }; try { await fetch('/api/konfirmasi-pemohon', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); alert("Berhasil."); bootstrap.Modal.getInstance(document.getElementById('modalKonfirmasi')).hide(); muatDataPengajuan(); } finally { btnSimpan.disabled = false; } });
-        async function muatDataKendaraan() { try { const response = await fetch('/api/kendaraan'); const result = await response.json(); const dropdown = document.getElementById('inputNoPolisi'); dropdown.innerHTML = '<option value="" disabled selected>Pilih kendaraan...</option>'; result.data.forEach(mobil => { const opsi = document.createElement('option'); opsi.value = mobil.no_polisi; opsi.setAttribute('data-merek', mobil.merk_tipe || "-"); opsi.innerText = `${mobil.merk_tipe || "-"} (${mobil.no_polisi})`; dropdown.appendChild(opsi); }); } catch (error) {} }
+        
+        document.getElementById('formKonfirmasi').addEventListener('submit', async function(event) { 
+            event.preventDefault(); const btnSimpan = document.getElementById('btnSimpanKonfirmasi'); btnSimpan.disabled = true; 
+            const isSetuju = document.getElementById('opsiKonfirmasi').value === "setuju"; 
+            const payload = { id_pengajuan: currentKonfirmasiId, is_setuju: isSetuju, alasan_banding: isSetuju ? "" : document.getElementById('inputAlasanBanding').value, timestamp_setuju: isSetuju ? new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' }) + ' WIB' : "" }; 
+            try { 
+                await fetch(API_URL + '/api/konfirmasi-pemohon', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); 
+                alert("Berhasil."); bootstrap.Modal.getInstance(document.getElementById('modalKonfirmasi')).hide(); muatDataPengajuan(); 
+            } finally { btnSimpan.disabled = false; } 
+        });
+
+        async function muatDataKendaraan() { 
+            try { 
+                const response = await fetch(API_URL + '/api/kendaraan'); const result = await response.json(); const dropdown = document.getElementById('inputNoPolisi'); dropdown.innerHTML = '<option value="" disabled selected>Pilih kendaraan...</option>'; 
+                result.data.forEach(mobil => { const opsi = document.createElement('option'); opsi.value = mobil.no_polisi; opsi.setAttribute('data-merek', mobil.merk_tipe || "-"); opsi.innerText = `${mobil.merk_tipe || "-"} (${mobil.no_polisi})`; dropdown.appendChild(opsi); }); 
+            } catch (error) {} 
+        }
+
         function keHalamanCetak(idPengajuan) { localStorage.setItem('id_cetak', idPengajuan); window.location.href = "cetak.html"; }
-        document.getElementById('formPengajuan').addEventListener('submit', async function(event) { event.preventDefault(); const btnSimpan = document.getElementById('btnSimpan'); btnSimpan.disabled = true; const dataPengajuan = { nik_pemohon: localStorage.getItem('user_nik'), tgl_mulai: document.getElementById('tglMulai').value, tgl_selesai: document.getElementById('tglSelesai').value, waktu_mulai: document.getElementById('wktMulai').value, waktu_selesai: document.getElementById('wktSelesai').value, lokasi_awal: document.getElementById('lokasiDari').value, tujuan: document.getElementById('lokasiTujuan').value, keperluan: document.getElementById('keperluan').value }; try { const response = await fetch('/api/pengajuan', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dataPengajuan) }); if (response.ok) { alert("Berhasil!"); document.querySelector('#modalPengajuan .btn-close').click(); muatDataPengajuan(); } else { const err = await response.json(); alert("SISTEM MENOLAK: " + err.detail); } } finally { btnSimpan.disabled = false; } });
+        
+        document.getElementById('formPengajuan').addEventListener('submit', async function(event) { 
+            event.preventDefault(); const btnSimpan = document.getElementById('btnSimpan'); btnSimpan.disabled = true; 
+            const dataPengajuan = { nik_pemohon: localStorage.getItem('user_nik'), tgl_mulai: document.getElementById('tglMulai').value, tgl_selesai: document.getElementById('tglSelesai').value, waktu_mulai: document.getElementById('wktMulai').value, waktu_selesai: document.getElementById('wktSelesai').value, lokasi_awal: document.getElementById('lokasiDari').value, tujuan: document.getElementById('lokasiTujuan').value, keperluan: document.getElementById('keperluan').value }; 
+            try { 
+                const response = await fetch(API_URL + '/api/pengajuan', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dataPengajuan) }); 
+                if (response.ok) { alert("Berhasil!"); document.querySelector('#modalPengajuan .btn-close').click(); muatDataPengajuan(); } else { const err = await response.json(); alert("SISTEM MENOLAK: " + err.detail); } 
+            } finally { btnSimpan.disabled = false; } 
+        });
+
         function bukaModalApproval(id, status) { currentApprovalId = id; document.getElementById('formApproval').reset(); currentApprovalType = (status === 'menunggu' || status === 'menunggu_manager') ? 'manager' : 'ga'; document.getElementById('grupNoPolisi').style.display = (currentApprovalType === 'ga') ? 'block' : 'none'; document.getElementById('inputNoPolisi').required = (currentApprovalType === 'ga'); new bootstrap.Modal(document.getElementById('modalApproval')).show(); }
-        document.getElementById('formApproval').addEventListener('submit', async function(event) { event.preventDefault(); const btnSimpan = document.getElementById('btnSimpanApproval'); btnSimpan.disabled = true; const isSetuju = document.getElementById('opsiApproval').value === "setuju"; const dataApproval = { id_pengajuan: currentApprovalId, is_approved: isSetuju, keterangan: document.getElementById('keteranganApproval').value }; let endpointUrl = '/api/approval-manager'; if (currentApprovalType === 'manager') { dataApproval.nama_manager = localStorage.getItem('user_nama'); } else if (currentApprovalType === 'ga') { endpointUrl = '/api/approval-ga'; dataApproval.nama_ga = localStorage.getItem('user_nama'); const selectMobil = document.getElementById('inputNoPolisi'); dataApproval.no_polisi = isSetuju ? selectMobil.value : "-"; dataApproval.merek_kendaraan = isSetuju ? selectMobil.options[selectMobil.selectedIndex].getAttribute('data-merek') : "-"; } try { const response = await fetch(endpointUrl, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dataApproval) }); if (response.ok) { alert("Disimpan!"); bootstrap.Modal.getInstance(document.getElementById('modalApproval')).hide(); muatDataPengajuan(); } else { const err = await response.json(); alert("PENOLAKAN: " + err.detail); } } finally { btnSimpan.disabled = false; } });
+        
+        document.getElementById('formApproval').addEventListener('submit', async function(event) { 
+            event.preventDefault(); const btnSimpan = document.getElementById('btnSimpanApproval'); btnSimpan.disabled = true; 
+            const isSetuju = document.getElementById('opsiApproval').value === "setuju"; 
+            const dataApproval = { id_pengajuan: currentApprovalId, is_approved: isSetuju, keterangan: document.getElementById('keteranganApproval').value }; 
+            
+            let endpointUrl = API_URL + '/api/approval-manager'; 
+            if (currentApprovalType === 'manager') { dataApproval.nama_manager = localStorage.getItem('user_nama'); } 
+            else if (currentApprovalType === 'ga') { 
+                endpointUrl = API_URL + '/api/approval-ga'; dataApproval.nama_ga = localStorage.getItem('user_nama'); 
+                const selectMobil = document.getElementById('inputNoPolisi'); dataApproval.no_polisi = isSetuju ? selectMobil.value : "-"; dataApproval.merek_kendaraan = isSetuju ? selectMobil.options[selectMobil.selectedIndex].getAttribute('data-merek') : "-"; 
+            } 
+            try { 
+                const response = await fetch(endpointUrl, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dataApproval) }); 
+                if (response.ok) { alert("Disimpan!"); bootstrap.Modal.getInstance(document.getElementById('modalApproval')).hide(); muatDataPengajuan(); } else { const err = await response.json(); alert("PENOLAKAN: " + err.detail); } 
+            } finally { btnSimpan.disabled = false; } 
+        });
+
         window.onload = () => { muatDataPengajuan(); if (rolePengguna === 'ga') muatDataKendaraan(); };
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
