@@ -149,6 +149,7 @@
             if (!idTarget) return;
 
             try {
+                // Menggunakan API_BASE_URL
                 const response = await fetch(`${API_BASE_URL}/api/pengajuan`);
                 const result = await response.json();
                 const data = result.data.find(item => item.id.toString() === idTarget);
@@ -163,6 +164,7 @@
                     if (namaKaryawan && katalogTtd[namaKaryawan]) { imgTtd.src = katalogTtd[namaKaryawan]; imgTtd.style.display = "block"; }
                 };
 
+                // Memasukkan seluruh data ke elemen asli
                 document.getElementById('pdf-nama').innerText = data.nama_pemohon || "Tidak Diketahui";
                 document.getElementById('pdf-tgl-mulai').innerText = data.tgl_mulai || "-";
                 document.getElementById('pdf-tgl-selesai').innerText = data.tgl_selesai || "-";
@@ -185,16 +187,11 @@
                 tempelTTD('img-ttd-mgr-1', namaMgr); tempelTTD('img-ttd-mgr-2', namaMgr); tempelTTD('img-ttd-mgr-3', namaMgr);
                 tempelTTD('img-ttd-ga-1', namaGA); tempelTTD('img-ttd-ga-2', namaGA);
 
-                // ==========================================
-                // FITUR E-SIGNATURE (STAMP WAKTU) PEMOHON
-                // ==========================================
                 if (data.ttd_pemohon_timestamp && data.ttd_pemohon_timestamp !== "-") {
-                    // Jika ada timestamp persetujuan, tampilkan teks stempel
                     document.getElementById('teks-ttd-pemohon').innerHTML = `Telah disetujui digital pada:<br>${data.ttd_pemohon_timestamp}`;
                     document.getElementById('teks-ttd-pemohon').style.display = "block";
                     document.getElementById('img-ttd-pemohon').style.display = "none";
                 } else {
-                    // Jika belum setuju, tempel gambar (kalau ada)
                     tempelTTD('img-ttd-pemohon', namaPemohon);
                 }
 
