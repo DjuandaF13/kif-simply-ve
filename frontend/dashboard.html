@@ -201,7 +201,6 @@
                         <div class="col-6 col-md-3 text-center"><label class="small text-muted mb-1">Kiri</label><img id="imgAwalKiri" src="" class="img-fluid rounded border shadow-sm w-100 bg-white" style="height:120px; object-fit:cover;"></div>
                         <div class="col-6 col-md-3 text-center"><label class="small text-muted mb-1">Kanan</label><img id="imgAwalKanan" src="" class="img-fluid rounded border shadow-sm w-100 bg-white" style="height:120px; object-fit:cover;"></div>
                     </div>
-
                     <h6 class="fw-bold text-success mb-3 border-bottom pb-2">Saat Kendaraan Kembali (Akhir)</h6>
                     <div class="row g-2">
                         <div class="col-6 col-md-3 text-center"><label class="small text-muted mb-1">Depan</label><img id="imgAkhirDepan" src="" class="img-fluid rounded border shadow-sm w-100 bg-white" style="height:120px; object-fit:cover;"></div>
@@ -230,11 +229,12 @@
 
         async function muatDataPengajuan() {
             try {
-                const response = await fetch(API_URL + '/api/pengajuan'); const result = await response.json();
+                // Menggunakan API_BASE_URL
+                const response = await fetch(API_BASE_URL + '/api/pengajuan'); const result = await response.json();
                 let dataTampil = result.data || [];
                 if (rolePengguna === 'karyawan') { dataTampil = dataTampil.filter(item => item.nik_pemohon === userNik); }
                 dataGlobalPengajuan = dataTampil; renderTabel();
-            } catch (error) { document.getElementById('tabelPengajuan').innerHTML = "<tr><td colspan='4' class='text-center text-danger'>Gagal memuat.</td></tr>"; }
+            } catch (error) { document.getElementById('tabelPengajuan').innerHTML = "<tr><td colspan='4' class='text-center text-danger'>Gagal memuat data dari server.</td></tr>"; }
         }
 
         function renderTabel() {
@@ -256,24 +256,21 @@
                 if(item.status_pengajuan==="selesai") w="bg-success text-white";
 
                 let btn="";
-                // Tombol Cetak PDF
                 if (["disetujui", "sedang_dipakai", "menunggu_konfirmasi_user", "selesai", "banding"].includes(item.status_pengajuan)) {
-                    btn += `<button class="btn btn-sm btn-outline-success border-0 me-1" onclick="keHalamanCetak(${item.id})">📄 Cetak</button>`;
+                    btn += `<button class="btn btn-sm btn-outline-success border-0 me-1 mb-1" onclick="keHalamanCetak(${item.id})">📄 Cetak</button>`;
                 }
                 
-                // TOMBOL FOTO (DIKEMBALIKAN)
                 if (["sedang_dipakai", "menunggu_konfirmasi_user", "selesai", "banding"].includes(item.status_pengajuan)) {
-                    btn += `<button class="btn btn-sm btn-outline-info border-0 me-1" onclick="bukaModalFoto(${item.id})">📸 Foto</button>`;
+                    btn += `<button class="btn btn-sm btn-outline-info border-0 me-1 mb-1" onclick="bukaModalFoto(${item.id})">📸 Foto</button>`;
                 }
 
-                // Tombol Proses/Konfirmasi
                 if ((item.status_pengajuan === "menunggu" || item.status_pengajuan === "menunggu_manager") && rolePengguna === "manager") {
-                    btn += `<button class="btn btn-sm btn-primary" onclick="bukaModalApproval(${item.id}, '${item.status_pengajuan}')">Tinjau</button>`;
+                    btn += `<button class="btn btn-sm btn-primary mb-1" onclick="bukaModalApproval(${item.id}, '${item.status_pengajuan}')">Tinjau</button>`;
                 } else if (item.status_pengajuan === "menunggu_ga" && rolePengguna === "ga") {
-                    btn += `<button class="btn btn-sm btn-primary" onclick="bukaModalApproval(${item.id}, '${item.status_pengajuan}')">Tinjau (GA)</button>`;
+                    btn += `<button class="btn btn-sm btn-primary mb-1" onclick="bukaModalApproval(${item.id}, '${item.status_pengajuan}')">Tinjau (GA)</button>`;
                 }
                 if (item.status_pengajuan === "menunggu_konfirmasi_user" && item.nik_pemohon === userNik) {
-                    btn += `<button class="btn btn-sm btn-warning fw-bold mt-1" onclick="bukaModalKonfirmasi(${item.id})">Konfirmasi</button>`;
+                    btn += `<button class="btn btn-sm btn-warning fw-bold mb-1" onclick="bukaModalKonfirmasi(${item.id})">Konfirmasi</button>`;
                 }
                 if (btn === "") btn = `<span class="text-muted small">-</span>`;
 
@@ -291,21 +288,13 @@
         document.getElementById('inputCari').addEventListener('input', renderTabel);
         document.getElementById('filterStatus').addEventListener('change', renderTabel);
 
-        // FUNGSI MEMBUKA MODAL FOTO (DIKEMBALIKAN & DIPERBAIKI)
         function bukaModalFoto(id) {
             const data = dataGlobalPengajuan.find(x => x.id === id);
-            const p = "https://via.placeholder.com/400x300?text=Tidak+Ada+Foto"; // Gambar default jika kosong
-            
-            document.getElementById('imgAwalDepan').src = data.foto_awal_depan || p;
-            document.getElementById('imgAwalBelakang').src = data.foto_awal_belakang || p;
-            document.getElementById('imgAwalKiri').src = data.foto_awal_kiri || p;
-            document.getElementById('imgAwalKanan').src = data.foto_awal_kanan || p;
-            
-            document.getElementById('imgAkhirDepan').src = data.foto_akhir_depan || p;
-            document.getElementById('imgAkhirBelakang').src = data.foto_akhir_belakang || p;
-            document.getElementById('imgAkhirKiri').src = data.foto_akhir_kiri || p;
-            document.getElementById('imgAkhirKanan').src = data.foto_akhir_kanan || p;
-            
+            const p = "https://via.placeholder.com/400x300?text=Tidak+Ada+Foto"; 
+            document.getElementById('imgAwalDepan').src = data.foto_awal_depan || p; document.getElementById('imgAwalBelakang').src = data.foto_awal_belakang || p;
+            document.getElementById('imgAwalKiri').src = data.foto_awal_kiri || p; document.getElementById('imgAwalKanan').src = data.foto_awal_kanan || p;
+            document.getElementById('imgAkhirDepan').src = data.foto_akhir_depan || p; document.getElementById('imgAkhirBelakang').src = data.foto_akhir_belakang || p;
+            document.getElementById('imgAkhirKiri').src = data.foto_akhir_kiri || p; document.getElementById('imgAkhirKanan').src = data.foto_akhir_kanan || p;
             new bootstrap.Modal(document.getElementById('modalFoto')).show();
         }
 
@@ -317,14 +306,14 @@
             const isSetuju = document.getElementById('opsiKonfirmasi').value === "setuju"; 
             const payload = { id_pengajuan: currentKonfirmasiId, is_setuju: isSetuju, alasan_banding: isSetuju ? "" : document.getElementById('inputAlasanBanding').value, timestamp_setuju: isSetuju ? new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' }) + ' WIB' : "" }; 
             try { 
-                await fetch(API_URL + '/api/konfirmasi-pemohon', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); 
-                alert("Berhasil dikonfirmasi."); bootstrap.Modal.getInstance(document.getElementById('modalKonfirmasi')).hide(); muatDataPengajuan(); 
+                await fetch(API_BASE_URL + '/api/konfirmasi-pemohon', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); 
+                alert("Berhasil disimpan."); bootstrap.Modal.getInstance(document.getElementById('modalKonfirmasi')).hide(); muatDataPengajuan(); 
             } finally { btnSimpan.disabled = false; } 
         });
 
         async function muatDataKendaraan() { 
             try { 
-                const response = await fetch(API_URL + '/api/kendaraan'); const result = await response.json(); const dropdown = document.getElementById('inputNoPolisi'); dropdown.innerHTML = '<option value="" disabled selected>Pilih kendaraan...</option>'; 
+                const response = await fetch(API_BASE_URL + '/api/kendaraan'); const result = await response.json(); const dropdown = document.getElementById('inputNoPolisi'); dropdown.innerHTML = '<option value="" disabled selected>Pilih kendaraan...</option>'; 
                 result.data.forEach(mobil => { const opsi = document.createElement('option'); opsi.value = mobil.no_polisi; opsi.setAttribute('data-merek', mobil.merk_tipe || "-"); opsi.innerText = `${mobil.merk_tipe || "-"} (${mobil.no_polisi})`; dropdown.appendChild(opsi); }); 
             } catch (error) {} 
         }
@@ -335,8 +324,8 @@
             event.preventDefault(); const btnSimpan = document.getElementById('btnSimpan'); btnSimpan.disabled = true; 
             const dataPengajuan = { nik_pemohon: localStorage.getItem('user_nik'), tgl_mulai: document.getElementById('tglMulai').value, tgl_selesai: document.getElementById('tglSelesai').value, waktu_mulai: document.getElementById('wktMulai').value, waktu_selesai: document.getElementById('wktSelesai').value, lokasi_awal: document.getElementById('lokasiDari').value, tujuan: document.getElementById('lokasiTujuan').value, keperluan: document.getElementById('keperluan').value }; 
             try { 
-                const response = await fetch(API_URL + '/api/pengajuan', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dataPengajuan) }); 
-                if (response.ok) { alert("Berhasil diajukan!"); document.querySelector('#modalPengajuan .btn-close').click(); muatDataPengajuan(); } else { const err = await response.json(); alert("SISTEM MENOLAK: " + err.detail); } 
+                const response = await fetch(API_BASE_URL + '/api/pengajuan', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dataPengajuan) }); 
+                if (response.ok) { alert("Berhasil!"); document.querySelector('#modalPengajuan .btn-close').click(); muatDataPengajuan(); } else { const err = await response.json(); alert("SISTEM MENOLAK: " + err.detail); } 
             } finally { btnSimpan.disabled = false; } 
         });
 
@@ -347,15 +336,15 @@
             const isSetuju = document.getElementById('opsiApproval').value === "setuju"; 
             const dataApproval = { id_pengajuan: currentApprovalId, is_approved: isSetuju, keterangan: document.getElementById('keteranganApproval').value }; 
             
-            let endpointUrl = API_URL + '/api/approval-manager'; 
+            let endpointUrl = API_BASE_URL + '/api/approval-manager'; 
             if (currentApprovalType === 'manager') { dataApproval.nama_manager = localStorage.getItem('user_nama'); } 
             else if (currentApprovalType === 'ga') { 
-                endpointUrl = API_URL + '/api/approval-ga'; dataApproval.nama_ga = localStorage.getItem('user_nama'); 
+                endpointUrl = API_BASE_URL + '/api/approval-ga'; dataApproval.nama_ga = localStorage.getItem('user_nama'); 
                 const selectMobil = document.getElementById('inputNoPolisi'); dataApproval.no_polisi = isSetuju ? selectMobil.value : "-"; dataApproval.merek_kendaraan = isSetuju ? selectMobil.options[selectMobil.selectedIndex].getAttribute('data-merek') : "-"; 
             } 
             try { 
                 const response = await fetch(endpointUrl, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dataApproval) }); 
-                if (response.ok) { alert("Keputusan Disimpan!"); bootstrap.Modal.getInstance(document.getElementById('modalApproval')).hide(); muatDataPengajuan(); } else { const err = await response.json(); alert("PENOLAKAN: " + err.detail); } 
+                if (response.ok) { alert("Tersimpan!"); bootstrap.Modal.getInstance(document.getElementById('modalApproval')).hide(); muatDataPengajuan(); } else { const err = await response.json(); alert("GAGAL: " + err.detail); } 
             } finally { btnSimpan.disabled = false; } 
         });
 
