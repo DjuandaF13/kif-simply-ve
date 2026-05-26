@@ -13,197 +13,208 @@
         .kertas-a4 { background-color: white; width: 210mm; height: 296mm; overflow: hidden; padding: 10mm; box-shadow: 0 0 10px rgba(0,0,0,0.5); color: black; box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         .form-wrapper { border: 1.5px solid black; padding: 2px; }
         .form-inner { border: 1px solid black; }
-        .judul-form { font-weight: bold; font-size: 14px; text-decoration: underline; text-align: center; margin-top: 15px; margin-bottom: 20px; }
-        
-        .tabel-layout { width: 100%; border-collapse: collapse; }
-        .tabel-layout td { padding: 5px; vertical-align: top; }
-        .tabel-layout .label-col { width: 25%; font-weight: bold; }
-        .tabel-layout .titik-dua { width: 2%; text-align: center; }
-        
-        .box-ttd { border: 1px solid black; width: 100%; text-align: center; margin-top: 20px; }
-        .box-ttd th { border: 1px solid black; padding: 5px; background-color: #f0f0f0; }
-        .box-ttd td { border: 1px solid black; height: 80px; vertical-align: bottom; padding: 5px; position: relative; }
-        
-        .bar-bbm { width: 100%; height: 15px; border: 1px solid black; background-color: #ddd; position: relative; margin-top: 3px; }
-        .bar-bbm-fill { height: 100%; background-color: #5cb85c; width: 0%; }
-        .bar-label { display: flex; justify-content: space-between; font-size: 9px; font-weight: bold; }
+        .judul-dokumen { text-align: center; font-weight: bold; font-size: 14px; text-decoration: underline; margin: 15px 0 10px 0; }
+        .header-hijau { background-color: #92D050; border-top: 1px solid black; border-bottom: 1px solid black; text-align: center; font-weight: bold; font-style: italic; padding: 3px; }
+        .tabel-utama { width: 100%; border-collapse: collapse; margin-bottom: 5px; }
+        .tabel-utama td { padding: 4px 8px; vertical-align: bottom; }
+        .col-label { width: 22%; }
+        .col-titikdua { width: 2%; text-align: center; }
+        .col-garis { border-bottom: 1px solid black; }
 
-        .img-ttd { max-width: 90px; max-height: 60px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        /* Pengaturan Area TTD */
+        .tabel-ttd { width: 100%; border-collapse: collapse; text-align: center; font-size: 10px; }
+        .tabel-ttd td { border: 1px solid black; width: 33.33%; padding: 0; vertical-align: top; }
+        .ttd-header { border-bottom: 1px solid black; padding: 3px; }
+        .ttd-body { height: 65px; text-align: left; padding: 3px 5px !important; position: relative; }
+        .ttd-footer { padding: 3px; font-size: 9px; }
+        .ttd-nama { position: absolute; bottom: 3px; left: 5px; right: 5px; text-align: center; z-index: 2;}
+        .img-ttd { display: none; position: absolute; top: 10px; left: 50%; transform: translateX(-50%); height: 45px; z-index: 1; opacity: 0.9; }
+
+        .box-check { display: inline-block; width: 25px; height: 15px; border: 1px solid black; vertical-align: middle; margin-right: 10px; }
+        .box-input { border: 1px solid black; display: inline-block; padding: 1px 5px; min-width: 150px; height: 18px; }
+        .bbm-container { display: inline-flex; align-items: center; }
+        .bbm-box-container { display: inline-block; width: 100px; height: 15px; border: 1px solid black; margin: 0 5px; position: relative; }
+        .bbm-divider { position: absolute; top: 0; bottom: 0; border-left: 1px solid black; z-index: 2; }
+        .bbm-fill { height: 100%; background-color: black; position: absolute; top: 0; left: 0; z-index: 1; transition: width 0.3s ease; }
+
+        .catatan { background-color: #E7E6E6; font-size: 9px; font-weight: bold; font-style: italic; padding: 5px; border-top: 1px solid black; border-bottom: 1px solid black; }
+        .footer-text { display: flex; justify-content: space-between; font-size: 9px; font-style: italic; margin-top: 5px; padding: 0 5px; }
+
+        @media print { .btn-kembali, .btn-cetak { display: none !important; } .kertas-a4 { box-shadow: none; width: 100%; } body { background-color: white; padding: 0; } }
     </style>
 </head>
 <body>
 
-    <div class="container mb-3 text-center">
-        <button class="btn btn-light" onclick="window.location.href='dashboard.html'">Kembali</button>
-        <button class="btn btn-primary btn-cetak" onclick="generatePDF()">Download PDF</button>
+    <div class="text-center mb-3">
+        <button class="btn btn-secondary btn-kembali me-2" onclick="window.location.href='dashboard.html'">Kembali ke Dasbor</button>
+        <button class="btn btn-danger btn-cetak" onclick="generatePDF()">Cetak Formulir (PDF)</button>
     </div>
 
     <div class="kertas-wrapper">
         <div class="kertas-a4" id="area-pdf">
             <div class="form-wrapper">
-                <div class="form-inner pb-4 px-3">
-                    <div style="font-size: 10px; text-align: right; margin-top: 5px;">FRM-KM.CRP.49-01.00/0122</div>
-                    <div class="judul-form">SURAT PERMINTAAN FASILITAS TRANSPORTASI / KENDARAAN OPERASIONAL</div>
-                    
-                    <table class="tabel-layout">
-                        <tr><td class="label-col">No. ID Sistem</td><td class="titik-dua">:</td><td><b id="pdf-id"></b></td></tr>
-                        <tr><td class="label-col">Nama / Jabatan / Dept</td><td class="titik-dua">:</td><td id="pdf-nama"></td></tr>
-                        <tr><td class="label-col">Keperluan</td><td class="titik-dua">:</td><td id="pdf-keperluan"></td></tr>
-                        <tr><td class="label-col">Hari / Tgl Pemakaian</td><td class="titik-dua">:</td><td id="pdf-tgl"></td></tr>
-                        <tr><td class="label-col">Jam Keluar / Masuk</td><td class="titik-dua">:</td><td id="pdf-jam"></td></tr>
-                        <tr><td class="label-col">Lokasi / Tempat Tujuan</td><td class="titik-dua">:</td><td id="pdf-tujuan"></td></tr>
-                    </table>
+                <div class="form-inner">
+                    <div class="judul-dokumen">PERMINTAAN FASILITAS TRANSPORTASI</div>
+                    <div style="border-bottom: 1px solid black; margin-bottom: 10px;"></div>
 
-                    <table class="box-ttd">
+                    <div style="padding: 0 10px 15px 10px;">
+                        <div style="margin-bottom: 10px;">Dengan ini mengajukan fasilitas transportasi bagi karyawan dibawah ini :</div>
+                        <table class="tabel-utama">
+                            <tr><td class="col-label">Nama</td><td class="col-titikdua">:</td><td class="col-garis" colspan="3"><strong id="pdf-nama">Memuat...</strong></td></tr>
+                            <tr><td class="col-label">Divisi / Dept.</td><td class="col-titikdua">:</td><td class="col-garis" colspan="3"><span id="pdf-divisi">Karyawan</span></td></tr>
+                            <tr><td class="col-label">Tanggal Pemakaian</td><td class="col-titikdua">:</td><td class="col-garis" style="width: 30%;"><span id="pdf-tgl-mulai">...</span></td><td style="width: 5%; text-align: center;">s/d</td><td class="col-garis"><span id="pdf-tgl-selesai">...</span></td></tr>
+                            <tr><td class="col-label">Waktu Pemakaian</td><td class="col-titikdua">:</td><td class="col-garis"><span id="pdf-waktu-mulai">...</span></td><td style="text-align: center;">s/d</td><td class="col-garis"><span id="pdf-waktu-selesai">...</span></td></tr>
+                            <tr><td class="col-label">Dari</td><td class="col-titikdua">:</td><td class="col-garis" colspan="3"><span id="pdf-dari">...</span></td></tr>
+                            <tr><td class="col-label">Tujuan</td><td class="col-titikdua">:</td><td class="col-garis" colspan="3"><span id="pdf-tujuan">...</span></td></tr>
+                            <tr><td class="col-label">Keperluan</td><td class="col-titikdua">:</td><td class="col-garis" colspan="3"><span id="pdf-keperluan">...</span></td></tr>
+                            <tr><td colspan="5" class="col-garis" style="height: 15px;"></td></tr>
+                        </table>
+                    </div>
+
+                    <div class="header-hijau">Diisi oleh PIC GA / Personalia <span style="font-weight: normal;">(beri tanda checklist (V))</span></div>
+                    <div style="padding: 10px 20px;">
+                        <div style="margin-bottom: 10px;">Nomor ID Pengajuan : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong class="col-garis" style="display:inline-block; width: 150px; text-align:center;">#<span id="pdf-id">...</span></strong></div>
+                        <table style="width: 100%; font-size: 11px;">
+                            <tr>
+                                <td style="width: 50%; vertical-align: top;">
+                                    <div style="display: flex; align-items: center; margin-bottom: 15px;"><div class="box-check" style="text-align: center;">V</div><div>Kendaraan Operasional<br>Merek/Tipe : <strong class="col-garis" style="display:inline-block; width: 120px; text-align: center;" id="pdf-merek">...</strong></div></div>
+                                </td>
+                                <td style="vertical-align: top; padding-top: 15px;">Nomor Polisi : <strong class="col-garis" style="display:inline-block; width: 150px; text-align:center;" id="pdf-nopol">...</strong></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <table class="tabel-ttd" style="border-left: none; border-right: none;">
                         <tr>
-                            <th style="width: 33%;">Pemohon</th>
-                            <th style="width: 33%;">Mengetahui, Manager Dept</th>
-                            <th style="width: 33%;">Disetujui, Bag. GA</th>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="" id="img-ttd-pemohon" class="img-ttd" style="display: none;">
-                                <div id="teks-esign-pemohon" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: blue; font-weight: bold; font-size: 9px; white-space: nowrap; display: none;"></div>
-                                <br><span id="nama-ttd-pemohon">(....................................)</span>
-                            </td>
-                            <td><img src="" id="img-ttd-manager" class="img-ttd" style="display: none;"><br><span id="nama-ttd-manager">(....................................)</span></td>
-                            <td><img src="" id="img-ttd-ga" class="img-ttd" style="display: none;"><br><span id="nama-ttd-ga">(....................................)</span></td>
-                        </tr>
-                    </table>
-
-                    <hr style="border-top: 2px dashed black; margin: 30px 0;">
-
-                    <div style="font-size: 12px; font-weight: bold; margin-bottom: 10px;">Diisi oleh Bagian Kendaraan / Security</div>
-                    <table class="tabel-layout">
-                        <tr><td class="label-col">Merek / No. Polisi</td><td class="titik-dua">:</td><td id="pdf-mobil"></td></tr>
-                    </table>
-
-                    <table class="box-ttd" style="margin-top: 10px;">
-                        <tr><th style="width: 50%;">KENDARAAN KELUAR</th><th style="width: 50%;">KENDARAAN KEMBALI</th></tr>
-                        <tr>
-                            <td style="text-align: left; padding: 10px; height: 100px;">
-                                Odometer: <b id="pdf-odo-awal"></b> KM<br>
-                                Indikator BBM: <b id="pdf-bbm-awal"></b>%
-                                <div class="bar-label"><span>E</span><span>F</span></div>
-                                <div class="bar-bbm"><div class="bar-bbm-fill" id="fill-bbm-awal"></div></div>
-                            </td>
-                            <td style="text-align: left; padding: 10px; height: 100px;">
-                                Odometer: <b id="pdf-odo-akhir"></b> KM<br>
-                                Indikator BBM: <b id="pdf-bbm-akhir"></b>%
-                                <div class="bar-label"><span>E</span><span>F</span></div>
-                                <div class="bar-bbm"><div class="bar-bbm-fill" id="fill-bbm-akhir"></div></div>
-                            </td>
+                            <td style="border-left: none;"><div class="ttd-header">Diajukan oleh,</div><div class="ttd-body">Tgl, <img id="img-ttd-mgr-1" class="img-ttd" src=""><div class="ttd-nama">(<span style="display:inline-block; width: 80%; border-bottom: 1px solid black;" id="pdf-ttd-nama-mgr-1"></span>)</div></div><div class="ttd-footer">Minimal Dept. Head / Manager Terkait</div></td>
+                            <td><div class="ttd-header">Diketahui oleh,</div><div class="ttd-body">Tgl, <img id="img-ttd-ga-1" class="img-ttd" src=""><div class="ttd-nama">(<span style="display:inline-block; width: 80%; border-bottom: 1px solid black;" id="pdf-ttd-nama-ga-1"></span>)</div></div><div class="ttd-footer">PIC GA / Personalia</div></td>
+                            <td style="border-right: none;"><div class="ttd-header">Disetujui oleh,</div><div class="ttd-body">Tgl, <img id="img-ttd-mgr-2" class="img-ttd" src=""><div class="ttd-nama">(<span style="display:inline-block; width: 80%; border-bottom: 1px solid black;" id="pdf-ttd-nama-mgr-2"></span>)</div></div><div class="ttd-footer">HROGA Dept Head / Manager Kantor / Kepala Depo</div></td>
                         </tr>
                     </table>
+
+                    <div class="header-hijau">Pemeriksaan Kendaraan <span style="font-weight: normal;">(diisi bila menggunakan kendaraan operasional)</span></div>
+                    <div style="padding: 10px;">
+                        <div style="font-weight: bold; margin-bottom: 5px;">Sebelum Pemakaian Kendaraan Operasional :</div>
+                        <table style="width: 100%; font-size: 11px; margin-bottom: 15px;">
+                            <tr><td style="width: 25%;">Posisi Angka Odometer (KM)</td><td style="width: 2%;">:</td><td><div class="box-input" id="pdf-odo-awal"></div></td></tr>
+                            <tr><td>Posisi Meter BBM</td><td>:</td><td><div class="bbm-container"><strong>E</strong><div class="bbm-box-container"><div class="bbm-fill" id="fill-bbm-awal"></div><div class="bbm-divider" style="left: 25%;"></div><div class="bbm-divider" style="left: 50%;"></div><div class="bbm-divider" style="left: 75%;"></div></div><strong>F</strong> <span style="margin-left: 10px;">(<span id="pdf-bbm-awal"></span>%)</span></div></td></tr>
+                        </table>
+
+                        <div style="font-weight: bold; margin-bottom: 5px;">Sesudah Pemakaian Kendaraan Operasional :</div>
+                        <table style="width: 100%; font-size: 11px;">
+                            <tr><td style="width: 25%;">Posisi Angka Odometer (KM)</td><td style="width: 2%;">:</td><td><div class="box-input" id="pdf-odo-akhir"></div></td></tr>
+                            <tr><td>Posisi Meter BBM</td><td>:</td><td><div class="bbm-container"><strong>E</strong><div class="bbm-box-container"><div class="bbm-fill" id="fill-bbm-akhir"></div><div class="bbm-divider" style="left: 25%;"></div><div class="bbm-divider" style="left: 50%;"></div><div class="bbm-divider" style="left: 75%;"></div></div><strong>F</strong> <span style="margin-left: 10px;">(<span id="pdf-bbm-akhir"></span>%)</span></div></td></tr>
+                        </table>
+
+                        <div style="margin-top: 15px;"><span style="text-decoration: underline;">Keterangan / Kondisi Kendaraan (Security) :</span><br><div style="padding: 5px; font-style: italic;" id="pdf-catatan">-</div><div class="col-garis" style="height: 5px; width: 100%;"></div></div>
+                        <div style="margin-top: 10px;"><span style="text-decoration: underline; color: red;">Catatan Banding User :</span><br><div style="padding: 5px; font-style: italic; color: red;" id="pdf-banding">-</div></div>
+                    </div>
+
+                    <div class="catatan">Catatan : Apabila sudah waktunya harus kembali tetapi Kendaraan Operasional <span style="text-decoration: underline;">terpaksa</span> disimpan (menginap) di luar Head Office / Pabrik / Depo, mohon dicantumkan tempat penyimpanan, tanggal dan waktu pengembalian serta alasannya pada kolom Keterangan.</div>
+
+                    <table class="tabel-ttd" style="border: none;">
+                        <tr>
+                            <td style="border-left: none; border-bottom: none;">
+                                <div class="ttd-header">Dibuat oleh,</div>
+                                <div class="ttd-body">
+                                    Tgl, <span id="pdf-ttd-tgl"></span> 
+                                    <img id="img-ttd-pemohon" class="img-ttd" src="">
+                                    <div id="teks-ttd-pemohon" style="display:none; text-align:center; font-size:8px; line-height:1.2; margin-top:8px; font-weight:bold; color:#0d6efd;"></div>
+                                    <div class="ttd-nama">(<span style="display:inline-block; width: 80%; border-bottom: 1px solid black;" id="pdf-ttd-nama-pemohon"></span>)</div>
+                                </div>
+                                <div class="ttd-footer">Karyawan / Pemakai</div>
+                            </td>
+                            <td style="border-bottom: none;"><div class="ttd-header">Diketahui oleh,</div><div class="ttd-body">Tgl, <img id="img-ttd-ga-2" class="img-ttd" src=""><div class="ttd-nama">(<span style="display:inline-block; width: 80%; border-bottom: 1px solid black;" id="pdf-ttd-nama-ga-2"></span>)</div></div><div class="ttd-footer">PIC GA / Personalia</div></td>
+                            <td style="border-right: none; border-bottom: none;"><div class="ttd-header">Disetujui oleh,</div><div class="ttd-body">Tgl, <img id="img-ttd-mgr-3" class="img-ttd" src=""><div class="ttd-nama">(<span style="display:inline-block; width: 80%; border-bottom: 1px solid black;" id="pdf-ttd-nama-mgr-3"></span>)</div></div><div class="ttd-footer">HROGA Dept Head / Manager Kantor / Kepala Depo</div></td>
+                        </tr>
+                    </table>
+
                 </div>
             </div>
+            
+            <div class="footer-text"><div>FRM-KM.CRP.49-01.00/0122</div><div>Manual 1 (satu) Rangkap : (1) PIC GA / Personalia</div></div>
         </div>
     </div>
 
     <script src="config.js"></script>
-
     <script>
-        let katalogTTD = {};
-
-        function isiBarBBM(idFill, persentase) {
-            document.getElementById(idFill).style.width = persentase + "%";
-            if(persentase <= 20) {
-                document.getElementById(idFill).style.backgroundColor = "#d9534f";
-            }
+        function isiBarBBM(idElemen, persentase) {
+            const barFill = document.getElementById(idElemen);
+            const nilaiValid = Math.max(0, Math.min(100, persentase));
+            barFill.style.width = nilaiValid + "%";
         }
 
-        async function muatData() {
+        async function loadData() {
+            const idTarget = localStorage.getItem('id_cetak');
+            if (!idTarget) return;
+
             try {
-                // PERBAIKAN: Menggunakan API_BASE_URL dari config.js
-                const resKatalog = await fetch(API_BASE_URL + '/api/katalog-ttd');
-                const dataKatalog = await resKatalog.json();
-                katalogTTD = dataKatalog.data || {};
+                const response = await fetch(`${API_BASE_URL}/api/pengajuan`);
+                const result = await response.json();
+                const data = result.data.find(item => item.id.toString() === idTarget);
+                if (!data) return;
 
-                const idCetak = localStorage.getItem('id_cetak');
-                if(!idCetak) {
-                    alert("Tidak ada data untuk dicetak!");
-                    return;
-                }
+                const resTtd = await fetch(`${API_BASE_URL}/api/katalog-ttd`);
+                const jsonTtd = await resTtd.json();
+                const katalogTtd = jsonTtd.data || {};
 
-                // PERBAIKAN: Menggunakan API_BASE_URL dari config.js
-                const resPengajuan = await fetch(API_BASE_URL + '/api/pengajuan');
-                const dataPengajuan = await resPengajuan.json();
-                
-                const data = dataPengajuan.data.find(x => x.id == idCetak);
+                const tempelTTD = (idElemen, namaKaryawan) => {
+                    const imgTtd = document.getElementById(idElemen);
+                    if (namaKaryawan && katalogTtd[namaKaryawan]) { imgTtd.src = katalogTtd[namaKaryawan]; imgTtd.style.display = "block"; }
+                };
 
-                if(!data) {
-                    alert("Data pengajuan tidak ditemukan!");
-                    return;
-                }
+                document.getElementById('pdf-nama').innerText = data.nama_pemohon || "Tidak Diketahui";
+                document.getElementById('pdf-tgl-mulai').innerText = data.tgl_mulai || "-";
+                document.getElementById('pdf-tgl-selesai').innerText = data.tgl_selesai || "-";
+                document.getElementById('pdf-waktu-mulai').innerText = data.waktu_mulai || "-";
+                document.getElementById('pdf-waktu-selesai').innerText = data.waktu_selesai || "-";
+                document.getElementById('pdf-dari').innerText = data.lokasi_awal || "-"; 
+                document.getElementById('pdf-tujuan').innerText = data.tujuan || "-";
+                document.getElementById('pdf-keperluan').innerText = data.keperluan || "-";
+                document.getElementById('pdf-id').innerText = data.id || "-";
+                document.getElementById('pdf-nopol').innerText = data.no_polisi && data.no_polisi !== "-" ? data.no_polisi : "Belum Ditentukan";
+                document.getElementById('pdf-merek').innerText = data.merek_kendaraan && data.merek_kendaraan !== "-" ? data.merek_kendaraan : "Belum Ditentukan";
+                document.getElementById('pdf-catatan').innerText = data.catatan_security && data.catatan_security !== "-" ? data.catatan_security : "-";
+                document.getElementById('pdf-banding').innerText = data.alasan_banding && data.alasan_banding !== "-" && data.alasan_banding !== "" ? data.alasan_banding : "-";
 
-                // Memasukkan data ke element HTML
-                document.getElementById('pdf-id').innerText = data.id;
-                document.getElementById('pdf-nama').innerText = data.nama_pemohon;
-                document.getElementById('pdf-keperluan').innerText = data.keperluan;
-                document.getElementById('pdf-tgl').innerText = `${data.tgl_mulai} s/d ${data.tgl_selesai}`;
-                document.getElementById('pdf-jam').innerText = `${data.waktu_mulai} - ${data.waktu_selesai}`;
-                document.getElementById('pdf-tujuan').innerText = data.tujuan;
-                document.getElementById('pdf-mobil').innerText = `${data.merek_kendaraan || "-"} / ${data.no_polisi || "-"}`;
+                const namaMgr = data.nama_manager || ""; const namaGA = data.nama_ga || ""; const namaPemohon = data.nama_pemohon || "";
+                document.getElementById('pdf-ttd-nama-mgr-1').innerText = namaMgr; document.getElementById('pdf-ttd-nama-mgr-2').innerText = namaMgr; document.getElementById('pdf-ttd-nama-mgr-3').innerText = namaMgr; 
+                document.getElementById('pdf-ttd-nama-ga-1').innerText = namaGA; document.getElementById('pdf-ttd-nama-ga-2').innerText = namaGA; 
+                document.getElementById('pdf-ttd-nama-pemohon').innerText = namaPemohon; document.getElementById('pdf-ttd-tgl').innerText = data.tgl_mulai || "-";
 
-                document.getElementById('nama-ttd-pemohon').innerText = `(${data.nama_pemohon})`;
-                document.getElementById('nama-ttd-manager').innerText = `(${data.nama_manager || "...................................."})`;
-                document.getElementById('nama-ttd-ga').innerText = `(${data.nama_ga || "...................................."})`;
+                tempelTTD('img-ttd-mgr-1', namaMgr); tempelTTD('img-ttd-mgr-2', namaMgr); tempelTTD('img-ttd-mgr-3', namaMgr);
+                tempelTTD('img-ttd-ga-1', namaGA); tempelTTD('img-ttd-ga-2', namaGA);
 
-                function tempelTTD(idElement, namaPegawai) {
-                    if (katalogTTD[namaPegawai]) {
-                        const img = document.getElementById(idElement);
-                        img.src = katalogTTD[namaPegawai];
-                        img.style.display = "block";
-                    }
-                }
-
-                const namaPemohon = data.nama_pemohon;
-                if (data.status_pengajuan === 'selesai' && data.ttd_pemohon_timestamp) {
-                    const elEsign = document.getElementById('teks-esign-pemohon');
-                    elEsign.innerHTML = `E-Signature Verified<br>${namaPemohon}<br>${data.ttd_pemohon_timestamp}`;
-                    elEsign.style.display = "block";
+                // ==========================================
+                // FITUR E-SIGNATURE (STAMP WAKTU) PEMOHON
+                // ==========================================
+                if (data.ttd_pemohon_timestamp && data.ttd_pemohon_timestamp !== "-") {
+                    // Jika ada timestamp persetujuan, tampilkan teks stempel
+                    document.getElementById('teks-ttd-pemohon').innerHTML = `Telah disetujui digital pada:<br>${data.ttd_pemohon_timestamp}`;
+                    document.getElementById('teks-ttd-pemohon').style.display = "block";
                     document.getElementById('img-ttd-pemohon').style.display = "none";
                 } else {
+                    // Jika belum setuju, tempel gambar (kalau ada)
                     tempelTTD('img-ttd-pemohon', namaPemohon);
                 }
-
-                if (data.nama_manager) tempelTTD('img-ttd-manager', data.nama_manager);
-                if (data.nama_ga) tempelTTD('img-ttd-ga', data.nama_ga);
 
                 document.getElementById('pdf-odo-awal').innerText = data.odo_awal || "0";
                 document.getElementById('pdf-bbm-awal').innerText = data.bbm_awal || 0;
                 document.getElementById('pdf-odo-akhir').innerText = data.odo_akhir || "0";
                 document.getElementById('pdf-bbm-akhir').innerText = data.bbm_akhir || 0;
-                
-                isiBarBBM('fill-bbm-awal', data.bbm_awal || 0);
-                isiBarBBM('fill-bbm-akhir', data.bbm_akhir || 0);
+                isiBarBBM('fill-bbm-awal', data.bbm_awal || 0); isiBarBBM('fill-bbm-akhir', data.bbm_akhir || 0);
 
-            } catch (error) {
-                console.error("Gagal menarik data cetak:", error);
-            }
+            } catch (error) { console.error(error); }
         }
 
         function generatePDF() {
-            window.scrollTo(0,0);
-            const elemen = document.getElementById('area-pdf');
-            const btn = document.querySelector('.btn-cetak');
-            const teksAwal = btn.innerText;
-            btn.innerText = "Memproses PDF...";
-            
-            const opsi = {
-                margin: 0,
-                filename: `Surat_Jalan_Kendaraan_${localStorage.getItem('id_cetak')}.pdf`,
-                image: { type: 'jpeg', quality: 1 },
-                html2canvas: { scale: 2, useCORS: true, scrollX: 0, scrollY: 0 },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-            
-            html2pdf().set(opsi).from(elemen).save().then(() => {
-                btn.innerText = teksAwal;
-            });
+            window.scrollTo(0,0); const elemen = document.getElementById('area-pdf'); const btn = document.querySelector('.btn-cetak');
+            const teksAwal = btn.innerText; btn.innerText = "Memproses PDF...";
+            const opsi = { margin: 0, filename: `Surat_Jalan_Kendaraan_${localStorage.getItem('id_cetak')}.pdf`, image: { type: 'jpeg', quality: 1 }, html2canvas: { scale: 2, useCORS: true, scrollX: 0, scrollY: 0 }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } };
+            html2pdf().set(opsi).from(elemen).save().then(() => { btn.innerText = teksAwal; });
         }
 
-        window.onload = muatData;
+        window.onload = loadData;
     </script>
 </body>
 </html>
