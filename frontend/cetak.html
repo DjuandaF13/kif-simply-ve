@@ -100,14 +100,15 @@
         </div>
     </div>
 
+    <script src="config.js"></script>
     <script>
         let katalogTTD = {};
         async function muatData() {
             try {
-                const resKatalog = await fetch('/api/katalog-ttd'); const dataKatalog = await resKatalog.json(); katalogTTD = dataKatalog.data || {};
+                const resKatalog = await fetch(API_URL + '/api/katalog-ttd'); const dataKatalog = await resKatalog.json(); katalogTTD = dataKatalog.data || {};
                 const idCetak = localStorage.getItem('id_cetak'); if(!idCetak) return;
 
-                const resPengajuan = await fetch('/api/pengajuan'); const dataPengajuan = await resPengajuan.json();
+                const resPengajuan = await fetch(API_URL + '/api/pengajuan'); const dataPengajuan = await resPengajuan.json();
                 const data = dataPengajuan.data.find(x => x.id == idCetak); if(!data) return;
 
                 document.getElementById('pdf-id').innerText = data.id;
