@@ -79,7 +79,7 @@
                         <input type="number" class="form-control" id="bbmAwal" placeholder="Contoh: 80" min="0" max="100" required>
                     </div>
                     <hr class="border-secondary">
-                    <label class="form-label fw-bold small text-warning">Foto Bukti Fisik Kendaraan (Ambil via HP)</label>
+                    <label class="form-label fw-bold small text-warning">Foto Bukti Fisik Kendaraan</label>
                     <div class="row g-2">
                         <div class="col-6"><div class="upload-box"><label class="small text-muted mb-1">📸 Depan</label><input type="file" class="form-control form-control-sm" id="fotoAwalDepan" accept="image/*" capture="environment"></div></div>
                         <div class="col-6"><div class="upload-box"><label class="small text-muted mb-1">📸 Belakang</label><input type="file" class="form-control form-control-sm" id="fotoAwalBelakang" accept="image/*" capture="environment"></div></div>
@@ -113,7 +113,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label small text-danger">Catatan Kerusakan / Temuan Fisik</label>
-                        <textarea class="form-control" id="catatanSecurity" rows="2" placeholder="Tulis 'Aman' atau sebutkan jika ada baret/kendala baru..."></textarea>
+                        <textarea class="form-control" id="catatanSecurity" rows="2" placeholder="Tulis 'Aman' atau sebutkan kendala baru..."></textarea>
                     </div>
                     <hr class="border-secondary">
                     <label class="form-label fw-bold small text-warning">Foto Bukti Fisik Saat Kembali</label>
@@ -132,6 +132,7 @@
         </div>
     </div>
 
+    <script src="config.js"></script>
     <script>
         let currentTargetId = null;
         if (localStorage.getItem('user_role') !== 'security') { window.location.href = "index.html"; }
@@ -141,12 +142,12 @@
 
         async function muatDataSecurity() {
             try {
-                const response = await fetch('/api/pengajuan'); const result = await response.json();
+                const response = await fetch(API_URL + '/api/pengajuan'); const result = await response.json();
                 const tbody = document.getElementById('tabelSecurity'); tbody.innerHTML = "";
                 const dataAktif = result.data.filter(item => item.status_pengajuan === 'disetujui' || item.status_pengajuan === 'sedang_dipakai');
 
                 if (dataAktif.length === 0) {
-                    tbody.innerHTML = "<tr><td colspan='4' class='text-center py-5 text-muted small'>Tidak ada kendaraan dijadwalkan keluar/masuk saat ini.</td></tr>"; return;
+                    tbody.innerHTML = "<tr><td colspan='4' class='text-center py-5 text-muted small'>Tidak ada kendaraan dijadwalkan keluar/masuk.</td></tr>"; return;
                 }
 
                 dataAktif.forEach(item => {
@@ -158,7 +159,7 @@
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
                         <td><div class="fw-bold">#${item.id}</div><div class="small text-info">${item.no_polisi}</div></td>
-                        <td><div class="small fw-semibold">${item.nama_pemohon}</div><div class="text-muted style="font-size:0.8rem;">📍 ${item.tujuan}</div></td>
+                        <td><div class="small fw-semibold">${item.nama_pemohon}</div><div class="text-muted" style="font-size:0.8rem;">📍 ${item.tujuan}</div></td>
                         <td><span class="badge ${s}">${item.status_pengajuan.toUpperCase()}</span></td>
                         <td>${btn}</td>
                     `;
@@ -175,14 +176,14 @@
             if (fileInput.files.length > 0) {
                 const formData = new FormData();
                 formData.append("id_pengajuan", currentTargetId); formData.append("tipe_inspeksi", tipe); formData.append("posisi_foto", posisi); formData.append("file", fileInput.files[0]);
-                try { await fetch('/api/upload-foto', { method: 'POST', body: formData }); } catch (e) { console.error("Gagal upload", posisi); }
+                try { await fetch(API_URL + '/api/upload-foto', { method: 'POST', body: formData }); } catch (e) { console.error("Gagal upload", posisi); }
             }
         }
 
         document.getElementById('btnSimpanKeluar').addEventListener('click', async function() {
             const btn = this; btn.innerText = "Menyimpan..."; btn.disabled = true;
             try {
-                await fetch('/api/inspeksi-keluar', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id_pengajuan: currentTargetId, odo_awal: parseInt(document.getElementById('odoAwal').value), bbm_awal: parseInt(document.getElementById('bbmAwal').value) }) });
+                await fetch(API_URL + '/api/inspeksi-keluar', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id_pengajuan: currentTargetId, odo_awal: parseInt(document.getElementById('odoAwal').value), bbm_awal: parseInt(document.getElementById('bbmAwal').value) }) });
                 await uploadSatuFoto('fotoAwalDepan', 'awal', 'depan'); await uploadSatuFoto('fotoAwalBelakang', 'awal', 'belakang'); await uploadSatuFoto('fotoAwalKiri', 'awal', 'kiri'); await uploadSatuFoto('fotoAwalKanan', 'awal', 'kanan');
                 alert("Kendaraan diizinkan jalan!"); bootstrap.Modal.getInstance(document.getElementById('modalKeluar')).hide(); muatDataSecurity();
             } finally { btn.innerText = "Izinkan Keluar"; btn.disabled = false; }
@@ -191,7 +192,7 @@
         document.getElementById('btnSimpanMasuk').addEventListener('click', async function() {
             const btn = this; btn.innerText = "Menyimpan..."; btn.disabled = true;
             try {
-                await fetch('/api/inspeksi-masuk', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id_pengajuan: currentTargetId, odo_akhir: parseInt(document.getElementById('odoAkhir').value), bbm_akhir: parseInt(document.getElementById('bbmAkhir').value), catatan_security: document.getElementById('catatanSecurity').value || "-" }) });
+                await fetch(API_URL + '/api/inspeksi-masuk', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id_pengajuan: currentTargetId, odo_akhir: parseInt(document.getElementById('odoAkhir').value), bbm_akhir: parseInt(document.getElementById('bbmAkhir').value), catatan_security: document.getElementById('catatanSecurity').value || "-" }) });
                 await uploadSatuFoto('fotoAkhirDepan', 'akhir', 'depan'); await uploadSatuFoto('fotoAkhirBelakang', 'akhir', 'belakang'); await uploadSatuFoto('fotoAkhirKiri', 'akhir', 'kiri'); await uploadSatuFoto('fotoAkhirKanan', 'akhir', 'kanan');
                 alert("Data kedatangan berhasil disimpan!"); bootstrap.Modal.getInstance(document.getElementById('modalMasuk')).hide(); muatDataSecurity();
             } finally { btn.innerText = "Selesaikan Tugas"; btn.disabled = false; }
