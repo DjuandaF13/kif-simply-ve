@@ -18,12 +18,20 @@
         .btn { border-radius: 10px; font-weight: 500; padding: 8px 16px; transition: all 0.2s; }
         .btn-primary { background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%); border: none; }
         .btn-success { background: linear-gradient(135deg, #198754 0%, #146c43 100%); border: none; }
-        .form-control { background-color: #1e222b; border: 1px solid #4a5568; color: #fff; border-radius: 8px; padding: 10px 12px; }
-        .form-control:focus { background-color: #1e222b; color: #fff; border-color: #0d6efd; box-shadow: none; }
+        
+        /* PERBAIKAN CSS FORM CONTROL (INPUT LEBIH JELAS & TERBACA) */
+        .form-control { background-color: #323846 !important; border: 1px solid #64748b !important; color: #ffffff !important; border-radius: 8px; padding: 10px 12px; font-weight: 500; }
+        .form-control:focus { background-color: #3f4758 !important; border-color: #3b82f6 !important; box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25) !important; }
+        .form-control::placeholder { color: #cbd5e1 !important; opacity: 1; font-weight: 400; font-style: italic; }
+        
+        /* PERBAIKAN CSS TOMBOL UPLOAD FOTO */
+        input[type="file"]::file-selector-button { background-color: #475569; color: #ffffff; border: none; border-radius: 6px; padding: 6px 12px; margin-right: 10px; cursor: pointer; font-weight: 500; transition: 0.2s; }
+        input[type="file"]::file-selector-button:hover { background-color: #64748b; }
+
         .modal-content { background-color: #282c37; color: #f8f9fa; border-radius: 20px; border: none; }
         .modal-header { border-bottom: 1px solid #323846; padding: 20px; }
         .modal-footer { border-top: 1px solid #323846; }
-        .upload-box { background-color: #1e222b; border: 1px dashed #4a5568; border-radius: 10px; padding: 10px; text-align: center; }
+        .upload-box { background-color: #1e222b; border: 1px dashed #64748b; border-radius: 10px; padding: 10px; text-align: center; }
         @media (max-width: 767px) { .mobile-padding { padding: 0 15px; } .table-responsive { border-radius: 14px; border: 1px solid #323846; } }
     </style>
 </head>
@@ -62,6 +70,7 @@
         </div>
     </div>
 
+    <!-- MODAL INSPEKSI KELUAR -->
     <div class="modal fade" id="modalKeluar" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -95,6 +104,7 @@
         </div>
     </div>
 
+    <!-- MODAL INSPEKSI MASUK -->
     <div class="modal fade" id="modalMasuk" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -132,6 +142,7 @@
         </div>
     </div>
 
+    <!-- Integrasi Config Terpusat -->
     <script src="config.js"></script>
     <script>
         let currentTargetId = null;
