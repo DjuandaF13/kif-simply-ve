@@ -52,31 +52,31 @@
                 <p>Untuk memfasilitasi fungsionalitas operasional bisnis, Platform melakukan agregasi dan pemrosesan terhadap kategori data berikut:</p>
                 <ul>
                     <li><strong>Personally Identifiable Information (PII) Internal:</strong> Meliputi Nomor Induk Karyawan (NIK), Nama Lengkap, dan hierarki otorisasi akses (Role).</li>
-                    <li><strong>Data Telemetri Operasional:</strong> Pencatatan waktu (*timestamp*), titik keberangkatan, destinasi, dan justifikasi penggunaan aset perusahaan.</li>
+                    <li><strong>Data Telemetri Operasional:</strong> Pencatatan waktu timestamp, titik keberangkatan, destinasi, dan justifikasi penggunaan aset perusahaan.</li>
                     <li><strong>Dokumentasi Aset Fisik:</strong> Perekaman angka Odometer, rasio bahan bakar (BBM), serta inspeksi visual kendaraan yang diunggah melalui perangkat otoritas keamanan (Security).</li>
-                    <li><strong>Otentikasi Elektronik (E-Signature):</strong> Perekaman jejak digital persetujuan dokumen (*Audit Trail*) yang mengikat dan diakui keabsahannya dalam operasional internal perusahaan.</li>
+                    <li><strong>Otentikasi Elektronik (E-Signature):</strong> Perekaman jejak digital persetujuan dokumen Audit Trail yang mengikat dan diakui keabsahannya dalam operasional internal perusahaan.</li>
                 </ul>
 
                 <h4 class="legal-section-title">2. Keterlibatan Sub-Pemroses Pihak Ketiga (Third-Party Sub-Processors)</h4>
-                <p>Arsitektur Platform dibangun di atas infrastruktur komputasi awan (*Cloud Computing*) yang terdistribusi. PT Nusira menggunakan layanan pihak ketiga bertaraf global sebagai Pemroses Data. Pihak ketiga ini tunduk pada kebijakan privasi dan kepatuhan keamanan masing-masing:</p>
+                <p>Arsitektur Platform dibangun di atas infrastruktur komputasi awan Cloud Computing yang terdistribusi. PT Nusira menggunakan layanan pihak ketiga bertaraf global sebagai Pemroses Data. Pihak ketiga ini tunduk pada kebijakan privasi dan kepatuhan keamanan masing-masing:</p>
                 <ul>
-                    <li><strong>Manajemen Basis Data & Penyimpanan Berkas:</strong> Disediakan oleh <strong>Supabase, Inc.</strong> Infrastruktur ini mengelola skema *Row Level Security* (RLS) terenkripsi untuk perlindungan data statis (*Data at Rest*). <br><a href="https://supabase.com/privacy" target="_blank" class="legal-link" rel="noopener noreferrer">Kebijakan Privasi Supabase ↗</a></li>
-                    <li><strong>Mesin Komputasi & Antarmuka Pemrograman Aplikasi (API):</strong> Logika *backend* didistribusikan melalui infrastruktur <strong>Hugging Face, Inc.</strong> yang memproses pembuatan dokumen PDF dan validasi otorisasi. <br><a href="https://huggingface.co/privacy" target="_blank" class="legal-link" rel="noopener noreferrer">Kebijakan Privasi Hugging Face ↗</a></li>
-                    <li><strong>Distribusi Jaringan Pengiriman Konten (Frontend Hosting):</strong> Antarmuka pengguna di-*hosting* pada jaringan global <strong>Vercel, Inc.</strong> yang dapat memproses log jaringan anonim demi keamanan protokol HTTP. <br><a href="https://vercel.com/legal/privacy-policy" target="_blank" class="legal-link" rel="noopener noreferrer">Kebijakan Privasi Vercel ↗</a></li>
+                    <li><strong>Manajemen Basis Data & Penyimpanan Berkas:</strong> Disediakan oleh <strong>Supabase, Inc.</strong> Infrastruktur ini mengelola skema Row Level Security (RLS) terenkripsi untuk perlindungan data statis Data at Rest. <br><a href="https://supabase.com/privacy" target="_blank" class="legal-link" rel="noopener noreferrer">Kebijakan Privasi Supabase ↗</a></li>
+                    <li><strong>Mesin Komputasi & Antarmuka Pemrograman Aplikasi (API):</strong> Logika backend didistribusikan melalui infrastruktur <strong>Hugging Face, Inc.</strong> yang memproses pembuatan dokumen PDF dan validasi otorisasi. <br><a href="https://huggingface.co/privacy" target="_blank" class="legal-link" rel="noopener noreferrer">Kebijakan Privasi Hugging Face ↗</a></li>
+                    <li><strong>Distribusi Jaringan Pengiriman Konten (Frontend Hosting):</strong> Antarmuka pengguna di-hosting pada jaringan global <strong>Vercel, Inc.</strong> yang dapat memproses log jaringan anonim demi keamanan protokol HTTP. <br><a href="https://vercel.com/legal/privacy-policy" target="_blank" class="legal-link" rel="noopener noreferrer">Kebijakan Privasi Vercel ↗</a></li>
                 </ul>
 
                 <h4 class="legal-section-title">3. Standar Keamanan & Perlindungan Aset Informasi</h4>
-                <p>Platform menerapkan prinsip *Least Privilege Access*, di mana hak untuk membaca, memodifikasi, dan menyetujui transaksi dibatasi secara ketat pada tingkat fungsional jabatan (Pemohon, Security, General Affairs, dan Manager). PT Nusira menjamin bahwa data operasional yang terkumpul tidak akan dialihkan, dijual, atau dieksploitasi untuk keperluan komersial eksternal.</p>
+                <p>Platform menerapkan prinsip Least Privilege Access, di mana hak untuk membaca, memodifikasi, dan menyetujui transaksi dibatasi secara ketat pada tingkat fungsional jabatan (Pemohon, Security, General Affairs, dan Manager). PT Nusira menjamin bahwa data operasional yang terkumpul tidak akan dialihkan, dijual, atau dieksploitasi untuk keperluan komersial eksternal.</p>
 
                 <h4 class="legal-section-title">4. Integritas dan Kepatuhan Pengguna</h4>
                 <p>Akses menuju Platform ini merupakan privilese korporat. Pengguna diwajibkan untuk menjaga kerahasiaan Nomor Induk Karyawan (NIK) masing-masing. Setiap tindakan pemalsuan data inspeksi fisik aset atau penyalahgunaan mekanisme persetujuan elektronik merupakan pelanggaran langsung terhadap pedoman tata tertib (SOP) PT Nusira dan dapat dikenakan sanksi indisipliner.</p>
 
                 <h4 class="legal-section-title">5. Pelepasan Tanggung Jawab Ketersediaan Jaringan</h4>
-                <p>PT Nusira dan para mitra *Sub-Processor* berupaya menjaga *Service Level Agreement* (SLA) ketersediaan sistem yang tinggi. Namun, dalam kondisi pemeliharaan infrastruktur (*maintenance window*) atau insiden *Force Majeure* pada jaringan *cloud*, pengguna diinstruksikan untuk kembali pada protokol Kontinuitas Bisnis (*Business Continuity Plan*) manual yang berlaku di masing-masing departemen.</p>
+                <p>PT Nusira dan para mitra Sub-Processor berupaya menjaga Service Level Agreement (SLA) ketersediaan sistem yang tinggi. Namun, dalam kondisi pemeliharaan infrastruktur maintenance window atau insiden Force Majeure pada jaringan cloud, pengguna diinstruksikan untuk kembali pada protokol Kontinuitas Bisnis Business Continuity Plan manual yang berlaku di masing-masing departemen.</p>
 
                 <hr class="mt-5 mb-4 border-secondary opacity-25">
                 <p class="text-center text-muted small">
-                    Dengan melakukan otentikasi masuk (*Login*) ke dalam Platform Simply-Ve, Pengguna secara sadar mengakui, memahami, dan menyetujui seluruh ketentuan tata kelola data yang didefinisikan dalam dokumen ini.
+                    Dengan melakukan otentikasi masuk Login ke dalam Platform Simply-Ve, Pengguna secara sadar mengakui, memahami, dan menyetujui seluruh ketentuan tata kelola data yang didefinisikan dalam dokumen ini.
                 </p>
             </div>
         </div>
