@@ -3,20 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Legal & Kebijakan Privasi | Simply-Ve</title>
+    <title>Kebijakan Privasi & Ketentuan Layanan | Simply-Ve</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Poppins', sans-serif; background-color: #f8f9fa; color: #2b3452; padding-bottom: 40px; }
-        .navbar { background: #ffffff; box-shadow: 0 2px 15px rgba(0,0,0,0.04); }
-        .navbar-brand { font-weight: 700; color: #0d6efd !important; }
-        .legal-container { max-width: 800px; margin: 40px auto; background: #ffffff; padding: 40px; border-radius: 16px; box-shadow: 0 5px 20px rgba(0,0,0,0.03); }
-        .legal-header { text-align: center; margin-bottom: 40px; border-bottom: 2px solid #f1f4f8; padding-bottom: 20px; }
-        .legal-section-title { font-weight: 600; color: #0d6efd; margin-top: 30px; margin-bottom: 15px; font-size: 1.2rem; }
-        .legal-text { font-size: 0.95rem; line-height: 1.7; color: #4a5568; }
-        .legal-text ul { padding-left: 20px; margin-bottom: 15px; }
-        .legal-text li { margin-bottom: 8px; }
-        .btn-back { border-radius: 8px; font-weight: 500; }
+        body { font-family: 'Inter', sans-serif; background-color: #f4f7f6; color: #1e293b; padding-bottom: 50px; line-height: 1.6; }
+        .navbar { background: #ffffff; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .navbar-brand { font-weight: 700; color: #2563eb !important; letter-spacing: -0.5px; }
+        .legal-container { max-width: 850px; margin: 40px auto; background: #ffffff; padding: 50px 60px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+        .legal-header { text-align: center; margin-bottom: 40px; border-bottom: 1px solid #e2e8f0; padding-bottom: 30px; }
+        .legal-header h1 { font-weight: 700; font-size: 1.8rem; color: #0f172a; margin-bottom: 10px; }
+        .legal-section-title { font-weight: 600; color: #1e293b; margin-top: 35px; margin-bottom: 15px; font-size: 1.15rem; border-left: 4px solid #2563eb; padding-left: 10px; }
+        .legal-text { font-size: 0.95rem; color: #475569; }
+        .legal-text p { margin-bottom: 1rem; text-align: justify; }
+        .legal-text ul { padding-left: 20px; margin-bottom: 1.5rem; }
+        .legal-text li { margin-bottom: 0.5rem; }
+        .legal-link { color: #2563eb; text-decoration: none; font-weight: 500; }
+        .legal-link:hover { text-decoration: underline; }
+        .btn-back { border-radius: 6px; font-weight: 500; padding: 8px 20px; }
+        .badge-version { background-color: #f1f5f9; color: #64748b; padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 500; }
+        
+        @media (max-width: 768px) {
+            .legal-container { margin: 20px; padding: 30px 20px; }
+            .legal-header h1 { font-size: 1.5rem; }
+        }
     </style>
 </head>
 <body>
@@ -31,42 +41,42 @@
     <div class="container">
         <div class="legal-container">
             <div class="legal-header">
-                <h2 class="fw-bold">Kebijakan Privasi & Syarat Penggunaan</h2>
-                <p class="text-muted mb-0">Pembaruan Terakhir: 2026 | PT Nusira</p>
+                <h1>Kebijakan Privasi & Ketentuan Layanan</h1>
+                <span class="badge-version">Berlaku Efektif: Mei 2026 | PT Nusira</span>
             </div>
 
             <div class="legal-text">
-                <p>Selamat datang di <strong>Simply-Ve</strong>, platform manajemen fasilitas transportasi dan kendaraan operasional internal perusahaan. Dokumen ini menjelaskan tata kelola, pengumpulan, dan pemrosesan data di dalam sistem kami.</p>
+                <p>Dokumen ini mengatur ketentuan hukum, kepatuhan privasi, serta tata kelola data untuk penggunaan <strong>Sistem Simply-Ve</strong> ("Platform"), sebuah infrastruktur manajemen fasilitas transportasi operasional internal milik PT Nusira ("Pengendali Data").</p>
 
-                <h4 class="legal-section-title">1. Pengumpulan Data Operasional</h4>
-                <p>Dalam menjalankan fungsinya, sistem mengumpulkan data operasional yang mencakup namun tidak terbatas pada:</p>
+                <h4 class="legal-section-title">1. Ruang Lingkup Pemrosesan Data (Data Processing Scope)</h4>
+                <p>Untuk memfasilitasi fungsionalitas operasional bisnis, Platform melakukan agregasi dan pemrosesan terhadap kategori data berikut:</p>
                 <ul>
-                    <li><strong>Data Identitas Pegawai:</strong> Nomor Induk Karyawan (NIK), Nama Lengkap, Divisi, dan Hak Akses (Role).</li>
-                    <li><strong>Aktivitas Logistik:</strong> Destinasi keberangkatan, tujuan, estimasi waktu, dan keperluan dinas.</li>
-                    <li><strong>Dokumentasi Fisik & Telemetri:</strong> Angka Odometer, indikator tingkat BBM, catatan keamanan, dan foto bukti fisik kendaraan yang diunggah oleh pihak Security.</li>
-                    <li><strong>Otentikasi Digital:</strong> Perekaman stempel waktu (<em>timestamp</em>) yang sah sebagai pengganti tanda tangan basah pada fitur E-Signature.</li>
+                    <li><strong>Personally Identifiable Information (PII) Internal:</strong> Meliputi Nomor Induk Karyawan (NIK), Nama Lengkap, dan hierarki otorisasi akses (Role).</li>
+                    <li><strong>Data Telemetri Operasional:</strong> Pencatatan waktu (*timestamp*), titik keberangkatan, destinasi, dan justifikasi penggunaan aset perusahaan.</li>
+                    <li><strong>Dokumentasi Aset Fisik:</strong> Perekaman angka Odometer, rasio bahan bakar (BBM), serta inspeksi visual kendaraan yang diunggah melalui perangkat otoritas keamanan (Security).</li>
+                    <li><strong>Otentikasi Elektronik (E-Signature):</strong> Perekaman jejak digital persetujuan dokumen (*Audit Trail*) yang mengikat dan diakui keabsahannya dalam operasional internal perusahaan.</li>
                 </ul>
 
-                <h4 class="legal-section-title">2. Pemrosesan Data & Infrastruktur Cloud</h4>
-                <p>Sistem ini mengadopsi arsitektur <em>modern cloud computing</em> terdistribusi. Sesuai dengan standar kepatuhan pengelolaan data, berikut adalah rincian infrastruktur Pemroses Data (Data Processor) yang digunakan oleh PT Nusira selaku Pengendali Data:</p>
+                <h4 class="legal-section-title">2. Keterlibatan Sub-Pemroses Pihak Ketiga (Third-Party Sub-Processors)</h4>
+                <p>Arsitektur Platform dibangun di atas infrastruktur komputasi awan (*Cloud Computing*) yang terdistribusi. PT Nusira menggunakan layanan pihak ketiga bertaraf global sebagai Pemroses Data. Pihak ketiga ini tunduk pada kebijakan privasi dan kepatuhan keamanan masing-masing:</p>
                 <ul>
-                    <li><strong>Penyimpanan Database & Media (Supabase):</strong> Seluruh basis data relasional, pencatatan histori transaksi, dan penyimpanan berkas media (foto aset operasional) diletakkan secara terenkripsi pada arsitektur penyimpanan Supabase.</li>
-                    <li><strong>Logika Pemrosesan & API (Hugging Face):</strong> Mesin komputasi <em>Backend</em> (API) diproses secara terisolasi pada infrastruktur Hugging Face Spaces untuk memastikan fungsi manajemen <em>booking</em>, otorisasi, dan pembuatan dokumen Surat Jalan (PDF) berjalan secara presisi sebelum diserahkan ke *database*.</li>
-                    <li><strong>Distribusi Antarmuka (Vercel):</strong> Pengiriman halaman antarmuka pengguna (<em>Frontend</em>) dikelola melalui infrastruktur Vercel. Layanan ini mendistribusikan antarmuka visual secara statis dan dapat memproses log akses standar demi menjamin stabilitas ketersediaan sistem.</li>
+                    <li><strong>Manajemen Basis Data & Penyimpanan Berkas:</strong> Disediakan oleh <strong>Supabase, Inc.</strong> Infrastruktur ini mengelola skema *Row Level Security* (RLS) terenkripsi untuk perlindungan data statis (*Data at Rest*). <br><a href="https://supabase.com/privacy" target="_blank" class="legal-link" rel="noopener noreferrer">Kebijakan Privasi Supabase ↗</a></li>
+                    <li><strong>Mesin Komputasi & Antarmuka Pemrograman Aplikasi (API):</strong> Logika *backend* didistribusikan melalui infrastruktur <strong>Hugging Face, Inc.</strong> yang memproses pembuatan dokumen PDF dan validasi otorisasi. <br><a href="https://huggingface.co/privacy" target="_blank" class="legal-link" rel="noopener noreferrer">Kebijakan Privasi Hugging Face ↗</a></li>
+                    <li><strong>Distribusi Jaringan Pengiriman Konten (Frontend Hosting):</strong> Antarmuka pengguna di-*hosting* pada jaringan global <strong>Vercel, Inc.</strong> yang dapat memproses log jaringan anonim demi keamanan protokol HTTP. <br><a href="https://vercel.com/legal/privacy-policy" target="_blank" class="legal-link" rel="noopener noreferrer">Kebijakan Privasi Vercel ↗</a></li>
                 </ul>
 
-                <h4 class="legal-section-title">3. Kerahasiaan & Hak Akses</h4>
-                <p>Informasi yang terekam dalam sistem ini bersifat rahasia dan merupakan aset internal perusahaan. Hak akses baca dan tulis dibatasi secara ketat berdasarkan hierarki jabatan fungsional (Pemohon, Security, General Affairs, dan Manager). Data tidak akan didistribusikan, dialihkan, atau dikomersialkan kepada pihak ketiga di luar entitas penyedia infrastruktur yang telah disebutkan di atas.</p>
+                <h4 class="legal-section-title">3. Standar Keamanan & Perlindungan Aset Informasi</h4>
+                <p>Platform menerapkan prinsip *Least Privilege Access*, di mana hak untuk membaca, memodifikasi, dan menyetujui transaksi dibatasi secara ketat pada tingkat fungsional jabatan (Pemohon, Security, General Affairs, dan Manager). PT Nusira menjamin bahwa data operasional yang terkumpul tidak akan dialihkan, dijual, atau dieksploitasi untuk keperluan komersial eksternal.</p>
 
-                <h4 class="legal-section-title">4. Kewajiban & Integritas Pengguna</h4>
-                <p>Setiap karyawan diwajibkan menggunakan kredensial (NIK) miliknya sendiri. Tindakan manipulasi terhadap laporan fisik kendaraan (termasuk Odometer, BBM, dan Foto) atau penyalahgunaan fasilitas E-Signature merupakan pelanggaran terhadap integritas data operasional dan dapat ditindaklanjuti sesuai dengan Peraturan Perusahaan yang berlaku.</p>
+                <h4 class="legal-section-title">4. Integritas dan Kepatuhan Pengguna</h4>
+                <p>Akses menuju Platform ini merupakan privilese korporat. Pengguna diwajibkan untuk menjaga kerahasiaan Nomor Induk Karyawan (NIK) masing-masing. Setiap tindakan pemalsuan data inspeksi fisik aset atau penyalahgunaan mekanisme persetujuan elektronik merupakan pelanggaran langsung terhadap pedoman tata tertib (SOP) PT Nusira dan dapat dikenakan sanksi indisipliner.</p>
 
-                <h4 class="legal-section-title">5. Ketersediaan Layanan</h4>
-                <p>Meskipun sistem dirancang dengan target ketersediaan tinggi (<em>High Availability</em>), pengguna disarankan untuk tetap mematuhi prosedur manual darurat apabila terjadi pemeliharaan infrastruktur jaringan secara berkala pada layanan *cloud* pendukung.</p>
+                <h4 class="legal-section-title">5. Pelepasan Tanggung Jawab Ketersediaan Jaringan</h4>
+                <p>PT Nusira dan para mitra *Sub-Processor* berupaya menjaga *Service Level Agreement* (SLA) ketersediaan sistem yang tinggi. Namun, dalam kondisi pemeliharaan infrastruktur (*maintenance window*) atau insiden *Force Majeure* pada jaringan *cloud*, pengguna diinstruksikan untuk kembali pada protokol Kontinuitas Bisnis (*Business Continuity Plan*) manual yang berlaku di masing-masing departemen.</p>
 
-                <hr class="mt-5 mb-4 border-secondary">
+                <hr class="mt-5 mb-4 border-secondary opacity-25">
                 <p class="text-center text-muted small">
-                    Dengan mengakses dan menggunakan sistem Simply-Ve, Anda menyatakan telah membaca, memahami, dan menyetujui seluruh ketentuan yang tercantum dalam dokumen ini.
+                    Dengan melakukan otentikasi masuk (*Login*) ke dalam Platform Simply-Ve, Pengguna secara sadar mengakui, memahami, dan menyetujui seluruh ketentuan tata kelola data yang didefinisikan dalam dokumen ini.
                 </p>
             </div>
         </div>
