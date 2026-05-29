@@ -7,49 +7,46 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Poppins', sans-serif; background-color: #1e222b; color: #f8f9fa; padding-bottom: 40px; }
-        .navbar { background: #282c37 !important; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
-        .card { border: none; border-radius: 16px; background-color: #282c37; box-shadow: 0 10px 30px rgba(0,0,0,0.15); overflow: hidden; }
-        .table { color: #f8f9fa; }
-        .table thead th { background-color: #212529; color: #a0aec0; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: none; padding: 15px; }
-        .table tbody td { padding: 15px; vertical-align: middle; font-size: 0.9rem; border-bottom: 1px solid #323846; color: #e2e8f0; }
-        .table-hover tbody tr:hover { background-color: #2d323f; }
+        body { font-family: 'Poppins', sans-serif; background-color: #f4f7f6; color: #2b3452; padding-bottom: 50px; }
+        .navbar { background: #ffffff; box-shadow: 0 2px 15px rgba(0,0,0,0.04); }
+        .navbar-brand { font-weight: 700; color: #0d6efd !important; }
+        .card { border: none; border-radius: 16px; box-shadow: 0 5px 20px rgba(0,0,0,0.03); overflow: hidden; background: #ffffff; }
+        .table thead th { background-color: #f8f9fa; color: #6c757d; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: none; padding: 15px; }
+        .table tbody td { padding: 15px; vertical-align: middle; font-size: 0.9rem; border-bottom: 1px solid #f1f4f8; color: #2b3452; }
+        .table-hover tbody tr:hover { background-color: #fdfdfe; }
         .badge { padding: 0.5em 0.8em; border-radius: 6px; font-weight: 500; font-size: 0.75rem; }
         .btn { border-radius: 10px; font-weight: 500; padding: 8px 16px; transition: all 0.2s; }
-        .btn-primary { background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%); border: none; }
-        .btn-success { background: linear-gradient(135deg, #198754 0%, #146c43 100%); border: none; }
-        
-        /* PERBAIKAN CSS FORM CONTROL (INPUT LEBIH JELAS & TERBACA) */
-        .form-control { background-color: #323846 !important; border: 1px solid #64748b !important; color: #ffffff !important; border-radius: 8px; padding: 10px 12px; font-weight: 500; }
-        .form-control:focus { background-color: #3f4758 !important; border-color: #3b82f6 !important; box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25) !important; }
-        .form-control::placeholder { color: #cbd5e1 !important; opacity: 1; font-weight: 400; font-style: italic; }
-        
-        /* PERBAIKAN CSS TOMBOL UPLOAD FOTO */
-        input[type="file"]::file-selector-button { background-color: #475569; color: #ffffff; border: none; border-radius: 6px; padding: 6px 12px; margin-right: 10px; cursor: pointer; font-weight: 500; transition: 0.2s; }
-        input[type="file"]::file-selector-button:hover { background-color: #64748b; }
-
-        .modal-content { background-color: #282c37; color: #f8f9fa; border-radius: 20px; border: none; }
-        .modal-header { border-bottom: 1px solid #323846; padding: 20px; }
-        .modal-footer { border-top: 1px solid #323846; }
-        .upload-box { background-color: #1e222b; border: 1px dashed #64748b; border-radius: 10px; padding: 10px; text-align: center; }
-        @media (max-width: 767px) { .mobile-padding { padding: 0 15px; } .table-responsive { border-radius: 14px; border: 1px solid #323846; } }
+        .form-control { background-color: #ffffff; border: 1px solid #ced4da; color: #212529; border-radius: 8px; padding: 10px 15px; font-weight: 500; }
+        .form-control:focus { background-color: #ffffff; border-color: #0d6efd; box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15); }
+        .form-control::placeholder { color: #adb5bd; font-weight: 400; }
+        .modal-content { background-color: #ffffff; border-radius: 20px; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.1); }
+        .modal-header { border-bottom: 1px solid #f1f4f8; padding: 20px; }
+        .modal-footer { border-top: none; padding: 20px; }
+        .upload-box { background-color: #f8f9fa; border: 1px dashed #ced4da; border-radius: 10px; padding: 15px 10px; text-align: center; transition: all 0.2s; }
+        .upload-box:hover { background-color: #e9ecef; border-color: #0d6efd; }
+        input[type="file"]::file-selector-button { background-color: #e9ecef; color: #495057; border: 1px solid #ced4da; border-radius: 6px; padding: 6px 12px; margin-right: 10px; cursor: pointer; font-weight: 500; transition: 0.2s; }
+        input[type="file"]::file-selector-button:hover { background-color: #dee2e6; }
+        @media (max-width: 767px) { .mobile-padding { padding: 0 15px; } .table-responsive { border-radius: 14px; border: 1px solid #f1f4f8; } }
     </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-dark mb-4">
-        <div class="container-fluid px-4">
-            <span class="navbar-brand fw-bold text-info">🪖 Simply-Ve Security</span>
+    <nav class="navbar navbar-expand-lg sticky-top mb-4">
+        <div class="container-fluid px-4 mobile-padding">
+            <span class="navbar-brand">🪖 Portal Security</span>
             <div class="d-flex align-items-center">
-                <span class="text-light small me-3 d-none d-sm-inline" id="namaUser">Halo, Komandan</span>
-                <button class="btn btn-outline-danger btn-sm fw-bold" onclick="logout()">Keluar</button>
+                <div class="text-end me-3 d-none d-sm-block">
+                    <div class="fw-bold text-dark" id="namaUser" style="font-size: 0.9rem;">Nama Petugas</div>
+                    <div class="text-muted" style="font-size: 0.75rem;">SECURITY</div>
+                </div>
+                <button class="btn btn-light btn-sm text-danger fw-bold border shadow-sm" onclick="logout()">Keluar</button>
             </div>
         </div>
     </nav>
 
     <div class="container-fluid px-4 mobile-padding">
-        <h5 class="mb-3 fw-bold">Daftar Pemeriksaan Kendaraan</h5>
-        <div class="card">
+        <h5 class="mb-3 fw-bold text-dark">Daftar Pemeriksaan Kendaraan</h5>
+        <div class="card shadow-sm">
             <div class="card-body p-0">
                 <div class="table-responsive">
                     <table class="table table-hover mb-0">
@@ -75,30 +72,30 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title fw-bold text-info">Inspeksi Kendaraan Keluar</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    <h5 class="modal-title fw-bold text-primary">Inspeksi Kendaraan Keluar</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body p-4">
+                    <div class="alert alert-primary bg-opacity-10 border-0 small mb-4">Catat kondisi kendaraan dengan benar sebelum diizinkan keluar lokasi.</div>
                     <div class="mb-3">
-                        <label class="form-label small text-muted">Angka Odometer (KM)</label>
-                        <input type="number" class="form-control" id="odoAwal" placeholder="Masukkan KM saat ini..." required>
+                        <label class="form-label small fw-bold text-secondary">Angka Odometer Awal (KM)</label>
+                        <input type="number" class="form-control" id="odoAwal" placeholder="Contoh: 12500" required>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label small text-muted">Level BBM (%)</label>
+                    <div class="mb-4">
+                        <label class="form-label small fw-bold text-secondary">Level BBM Awal (%)</label>
                         <input type="number" class="form-control" id="bbmAwal" placeholder="Contoh: 80" min="0" max="100" required>
                     </div>
-                    <hr class="border-secondary">
-                    <label class="form-label fw-bold small text-warning">Foto Bukti Fisik Kendaraan</label>
+                    <label class="form-label fw-bold small text-dark mb-3">Foto Bukti Fisik Kendaraan</label>
                     <div class="row g-2">
-                        <div class="col-6"><div class="upload-box"><label class="small text-muted mb-1">📸 Depan</label><input type="file" class="form-control form-control-sm" id="fotoAwalDepan" accept="image/*" capture="environment"></div></div>
-                        <div class="col-6"><div class="upload-box"><label class="small text-muted mb-1">📸 Belakang</label><input type="file" class="form-control form-control-sm" id="fotoAwalBelakang" accept="image/*" capture="environment"></div></div>
-                        <div class="col-6"><div class="upload-box"><label class="small text-muted mb-1">📸 Sisi Kiri</label><input type="file" class="form-control form-control-sm" id="fotoAwalKiri" accept="image/*" capture="environment"></div></div>
-                        <div class="col-6"><div class="upload-box"><label class="small text-muted mb-1">📸 Sisi Kanan</label><input type="file" class="form-control form-control-sm" id="fotoAwalKanan" accept="image/*" capture="environment"></div></div>
+                        <div class="col-12 col-md-6"><div class="upload-box"><label class="small fw-semibold text-secondary mb-2 d-block">📸 Tampak Depan</label><input type="file" class="form-control form-control-sm border-0 bg-transparent p-0" id="fotoAwalDepan" accept="image/*" capture="environment"></div></div>
+                        <div class="col-12 col-md-6"><div class="upload-box"><label class="small fw-semibold text-secondary mb-2 d-block">📸 Tampak Belakang</label><input type="file" class="form-control form-control-sm border-0 bg-transparent p-0" id="fotoAwalBelakang" accept="image/*" capture="environment"></div></div>
+                        <div class="col-12 col-md-6"><div class="upload-box"><label class="small fw-semibold text-secondary mb-2 d-block">📸 Sisi Kiri</label><input type="file" class="form-control form-control-sm border-0 bg-transparent p-0" id="fotoAwalKiri" accept="image/*" capture="environment"></div></div>
+                        <div class="col-12 col-md-6"><div class="upload-box"><label class="small fw-semibold text-secondary mb-2 d-block">📸 Sisi Kanan</label><input type="file" class="form-control form-control-sm border-0 bg-transparent p-0" id="fotoAwalKanan" accept="image/*" capture="environment"></div></div>
                     </div>
                 </div>
-                <div class="modal-footer border-0 pb-4 px-4">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="button" class="btn btn-primary px-4" id="btnSimpanKeluar">Izinkan Keluar</button>
+                <div class="modal-footer bg-light rounded-bottom-4">
+                    <button type="button" class="btn btn-light border" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary px-4 shadow-sm" id="btnSimpanKeluar">Izinkan Keluar</button>
                 </div>
             </div>
         </div>
@@ -110,33 +107,35 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title fw-bold text-success">Inspeksi Kendaraan Masuk</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label small text-muted">Angka Odometer Akhir (KM)</label>
-                        <input type="number" class="form-control" id="odoAkhir" placeholder="Masukkan KM saat kembali..." required>
+                <div class="modal-body p-4">
+                    <div class="alert alert-success bg-opacity-10 border-0 small mb-4">Periksa dan catat kondisi kendaraan setelah selesai digunakan.</div>
+                    <div class="row g-2 mb-3">
+                        <div class="col-6">
+                            <label class="form-label small fw-bold text-secondary">Odometer Akhir (KM)</label>
+                            <input type="number" class="form-control" id="odoAkhir" placeholder="Contoh: 12550" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label small fw-bold text-secondary">Sisa BBM (%)</label>
+                            <input type="number" class="form-control" id="bbmAkhir" placeholder="Contoh: 65" min="0" max="100" required>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label small text-muted">Sisa BBM Akhir (%)</label>
-                        <input type="number" class="form-control" id="bbmAkhir" placeholder="Contoh: 60" min="0" max="100" required>
+                    <div class="mb-4">
+                        <label class="form-label small fw-bold text-danger">Catatan Kondisi / Kerusakan Fisik</label>
+                        <textarea class="form-control" id="catatanSecurity" rows="2" placeholder="Tulis 'Aman' atau catat jika ada kerusakan baru..."></textarea>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label small text-danger">Catatan Kerusakan / Temuan Fisik</label>
-                        <textarea class="form-control" id="catatanSecurity" rows="2" placeholder="Tulis 'Aman' atau sebutkan kendala baru..."></textarea>
-                    </div>
-                    <hr class="border-secondary">
-                    <label class="form-label fw-bold small text-warning">Foto Bukti Fisik Saat Kembali</label>
+                    <label class="form-label fw-bold small text-dark mb-3">Foto Bukti Kondisi Kembali</label>
                     <div class="row g-2">
-                        <div class="col-6"><div class="upload-box"><label class="small text-muted mb-1">📸 Depan</label><input type="file" class="form-control form-control-sm" id="fotoAkhirDepan" accept="image/*" capture="environment"></div></div>
-                        <div class="col-6"><div class="upload-box"><label class="small text-muted mb-1">📸 Belakang</label><input type="file" class="form-control form-control-sm" id="fotoAkhirBelakang" accept="image/*" capture="environment"></div></div>
-                        <div class="col-6"><div class="upload-box"><label class="small text-muted mb-1">📸 Sisi Kiri</label><input type="file" class="form-control form-control-sm" id="fotoAkhirKiri" accept="image/*" capture="environment"></div></div>
-                        <div class="col-6"><div class="upload-box"><label class="small text-muted mb-1">📸 Sisi Kanan</label><input type="file" class="form-control form-control-sm" id="fotoAkhirKanan" accept="image/*" capture="environment"></div></div>
+                        <div class="col-12 col-md-6"><div class="upload-box"><label class="small fw-semibold text-secondary mb-2 d-block">📸 Tampak Depan</label><input type="file" class="form-control form-control-sm border-0 bg-transparent p-0" id="fotoAkhirDepan" accept="image/*" capture="environment"></div></div>
+                        <div class="col-12 col-md-6"><div class="upload-box"><label class="small fw-semibold text-secondary mb-2 d-block">📸 Tampak Belakang</label><input type="file" class="form-control form-control-sm border-0 bg-transparent p-0" id="fotoAkhirBelakang" accept="image/*" capture="environment"></div></div>
+                        <div class="col-12 col-md-6"><div class="upload-box"><label class="small fw-semibold text-secondary mb-2 d-block">📸 Sisi Kiri</label><input type="file" class="form-control form-control-sm border-0 bg-transparent p-0" id="fotoAkhirKiri" accept="image/*" capture="environment"></div></div>
+                        <div class="col-12 col-md-6"><div class="upload-box"><label class="small fw-semibold text-secondary mb-2 d-block">📸 Sisi Kanan</label><input type="file" class="form-control form-control-sm border-0 bg-transparent p-0" id="fotoAkhirKanan" accept="image/*" capture="environment"></div></div>
                     </div>
                 </div>
-                <div class="modal-footer border-0 pb-4 px-4">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="button" class="btn btn-success px-4" id="btnSimpanMasuk">Selesaikan Tugas</button>
+                <div class="modal-footer bg-light rounded-bottom-4">
+                    <button type="button" class="btn btn-light border" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-success px-4 shadow-sm" id="btnSimpanMasuk">Selesaikan Tugas</button>
                 </div>
             </div>
         </div>
@@ -146,68 +145,142 @@
     <script src="config.js"></script>
     <script>
         let currentTargetId = null;
+        
+        // Cek sesi login
         if (localStorage.getItem('user_role') !== 'security') { window.location.href = "index.html"; }
-        document.getElementById('namaUser').innerText = `Komandan: ${localStorage.getItem('user_nama')}`;
+        document.getElementById('namaUser').innerText = localStorage.getItem('user_nama');
 
         function logout() { localStorage.clear(); window.location.href = "index.html"; }
 
         async function muatDataSecurity() {
             try {
-                // Menggunakan API_BASE_URL
-                const response = await fetch(API_BASE_URL + '/api/pengajuan'); const result = await response.json();
-                const tbody = document.getElementById('tabelSecurity'); tbody.innerHTML = "";
+                const response = await fetch(API_BASE_URL + '/api/pengajuan'); 
+                const result = await response.json();
+                const tbody = document.getElementById('tabelSecurity'); 
+                tbody.innerHTML = "";
+                
                 const dataAktif = result.data.filter(item => item.status_pengajuan === 'disetujui' || item.status_pengajuan === 'sedang_dipakai');
 
                 if (dataAktif.length === 0) {
-                    tbody.innerHTML = "<tr><td colspan='4' class='text-center py-5 text-muted small'>Tidak ada kendaraan dijadwalkan keluar/masuk.</td></tr>"; return;
+                    tbody.innerHTML = "<tr><td colspan='4' class='text-center py-5 text-muted small'>Tidak ada pergerakan kendaraan saat ini.</td></tr>"; 
+                    return;
                 }
 
                 dataAktif.forEach(item => {
-                    let s = item.status_pengajuan === "disetujui" ? "bg-primary" : "bg-info text-dark";
+                    let s = item.status_pengajuan === "disetujui" ? "bg-primary" : "bg-warning text-dark";
                     let btn = item.status_pengajuan === "disetujui" ? 
-                        `<button class="btn btn-sm btn-primary w-100" onclick="bukaModalKeluar(${item.id})">🛫 Catat Keluar</button>` : 
-                        `<button class="btn btn-sm btn-success w-100" onclick="bukaModalMasuk(${item.id})">🛬 Catat Kembali</button>`;
+                        `<button class="btn btn-sm btn-primary w-100 shadow-sm" onclick="bukaModalKeluar(${item.id})">🛫 Catat Keluar</button>` : 
+                        `<button class="btn btn-sm btn-success w-100 shadow-sm" onclick="bukaModalMasuk(${item.id})">🛬 Catat Kembali</button>`;
+
+                    // Handling No Polisi kosong
+                    let platMobil = (item.no_polisi && item.no_polisi !== "-") ? item.no_polisi : "Plat Belum Diatur";
 
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
-                        <td><div class="fw-bold">#${item.id}</div><div class="small text-info">${item.no_polisi}</div></td>
-                        <td><div class="small fw-semibold">${item.nama_pemohon}</div><div class="text-muted" style="font-size:0.8rem;">📍 ${item.tujuan}</div></td>
-                        <td><span class="badge ${s}">${item.status_pengajuan.toUpperCase()}</span></td>
+                        <td><div class="fw-bold text-dark">#${item.id}</div><div class="small fw-bold text-primary">${platMobil}</div></td>
+                        <td><div class="fw-semibold text-dark">${item.nama_pemohon}</div><div class="text-muted small">📍 ${item.tujuan}</div></td>
+                        <td><span class="badge ${s}">${item.status_pengajuan.replace('_', ' ').toUpperCase()}</span></td>
                         <td>${btn}</td>
                     `;
                     tbody.appendChild(tr);
                 });
-            } catch (error) { document.getElementById('tabelSecurity').innerHTML = "<tr><td colspan='4' class='text-center text-danger'>Gagal memuat data.</td></tr>"; }
+            } catch (error) { 
+                document.getElementById('tabelSecurity').innerHTML = "<tr><td colspan='4' class='text-center text-danger'>Gagal memuat data dari server.</td></tr>"; 
+            }
         }
 
-        function bukaModalKeluar(id) { currentTargetId = id; document.getElementById('odoAwal').value = ""; document.getElementById('bbmAwal').value = ""; new bootstrap.Modal(document.getElementById('modalKeluar')).show(); }
-        function bukaModalMasuk(id) { currentTargetId = id; document.getElementById('odoAkhir').value = ""; document.getElementById('bbmAkhir').value = ""; document.getElementById('catatanSecurity').value = ""; new bootstrap.Modal(document.getElementById('modalMasuk')).show(); }
+        function bukaModalKeluar(id) { 
+            currentTargetId = id; 
+            document.getElementById('odoAwal').value = ""; 
+            document.getElementById('bbmAwal').value = ""; 
+            new bootstrap.Modal(document.getElementById('modalKeluar')).show(); 
+        }
+        
+        function bukaModalMasuk(id) { 
+            currentTargetId = id; 
+            document.getElementById('odoAkhir').value = ""; 
+            document.getElementById('bbmAkhir').value = ""; 
+            document.getElementById('catatanSecurity').value = ""; 
+            new bootstrap.Modal(document.getElementById('modalMasuk')).show(); 
+        }
 
         async function uploadSatuFoto(idInput, tipe, posisi) {
             const fileInput = document.getElementById(idInput);
             if (fileInput.files.length > 0) {
                 const formData = new FormData();
-                formData.append("id_pengajuan", currentTargetId); formData.append("tipe_inspeksi", tipe); formData.append("posisi_foto", posisi); formData.append("file", fileInput.files[0]);
-                try { await fetch(API_BASE_URL + '/api/upload-foto', { method: 'POST', body: formData }); } catch (e) { console.error("Gagal upload", posisi); }
+                formData.append("id_pengajuan", currentTargetId); 
+                formData.append("tipe_inspeksi", tipe); 
+                formData.append("posisi_foto", posisi); 
+                formData.append("file", fileInput.files[0]);
+                try { 
+                    await fetch(API_BASE_URL + '/api/upload-foto', { method: 'POST', body: formData }); 
+                } catch (e) { 
+                    console.error("Gagal upload foto:", posisi); 
+                }
             }
         }
 
         document.getElementById('btnSimpanKeluar').addEventListener('click', async function() {
-            const btn = this; btn.innerText = "Menyimpan..."; btn.disabled = true;
+            const btn = this; 
+            btn.innerText = "Memproses..."; 
+            btn.disabled = true;
             try {
-                await fetch(API_BASE_URL + '/api/inspeksi-keluar', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id_pengajuan: currentTargetId, odo_awal: parseInt(document.getElementById('odoAwal').value), bbm_awal: parseInt(document.getElementById('bbmAwal').value) }) });
-                await uploadSatuFoto('fotoAwalDepan', 'awal', 'depan'); await uploadSatuFoto('fotoAwalBelakang', 'awal', 'belakang'); await uploadSatuFoto('fotoAwalKiri', 'awal', 'kiri'); await uploadSatuFoto('fotoAwalKanan', 'awal', 'kanan');
-                alert("Kendaraan diizinkan jalan!"); bootstrap.Modal.getInstance(document.getElementById('modalKeluar')).hide(); muatDataSecurity();
-            } finally { btn.innerText = "Izinkan Keluar"; btn.disabled = false; }
+                await fetch(API_BASE_URL + '/api/inspeksi-keluar', { 
+                    method: 'PUT', 
+                    headers: { 'Content-Type': 'application/json' }, 
+                    body: JSON.stringify({ 
+                        id_pengajuan: currentTargetId, 
+                        odo_awal: parseInt(document.getElementById('odoAwal').value), 
+                        bbm_awal: parseInt(document.getElementById('bbmAwal').value) 
+                    }) 
+                });
+                
+                await uploadSatuFoto('fotoAwalDepan', 'awal', 'depan'); 
+                await uploadSatuFoto('fotoAwalBelakang', 'awal', 'belakang'); 
+                await uploadSatuFoto('fotoAwalKiri', 'awal', 'kiri'); 
+                await uploadSatuFoto('fotoAwalKanan', 'awal', 'kanan');
+                
+                alert("Kendaraan telah dicatat keluar!"); 
+                bootstrap.Modal.getInstance(document.getElementById('modalKeluar')).hide(); 
+                muatDataSecurity();
+            } catch (err) {
+                alert("Gagal memproses data keluar.");
+            } finally { 
+                btn.innerText = "Izinkan Keluar"; 
+                btn.disabled = false; 
+            }
         });
 
         document.getElementById('btnSimpanMasuk').addEventListener('click', async function() {
-            const btn = this; btn.innerText = "Menyimpan..."; btn.disabled = true;
+            const btn = this; 
+            btn.innerText = "Memproses..."; 
+            btn.disabled = true;
             try {
-                await fetch(API_BASE_URL + '/api/inspeksi-masuk', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id_pengajuan: currentTargetId, odo_akhir: parseInt(document.getElementById('odoAkhir').value), bbm_akhir: parseInt(document.getElementById('bbmAkhir').value), catatan_security: document.getElementById('catatanSecurity').value || "-" }) });
-                await uploadSatuFoto('fotoAkhirDepan', 'akhir', 'depan'); await uploadSatuFoto('fotoAkhirBelakang', 'akhir', 'belakang'); await uploadSatuFoto('fotoAkhirKiri', 'akhir', 'kiri'); await uploadSatuFoto('fotoAkhirKanan', 'akhir', 'kanan');
-                alert("Data kedatangan berhasil disimpan!"); bootstrap.Modal.getInstance(document.getElementById('modalMasuk')).hide(); muatDataSecurity();
-            } finally { btn.innerText = "Selesaikan Tugas"; btn.disabled = false; }
+                await fetch(API_BASE_URL + '/api/inspeksi-masuk', { 
+                    method: 'PUT', 
+                    headers: { 'Content-Type': 'application/json' }, 
+                    body: JSON.stringify({ 
+                        id_pengajuan: currentTargetId, 
+                        odo_akhir: parseInt(document.getElementById('odoAkhir').value), 
+                        bbm_akhir: parseInt(document.getElementById('bbmAkhir').value), 
+                        catatan_security: document.getElementById('catatanSecurity').value || "-" 
+                    }) 
+                });
+                
+                await uploadSatuFoto('fotoAkhirDepan', 'akhir', 'depan'); 
+                await uploadSatuFoto('fotoAkhirBelakang', 'akhir', 'belakang'); 
+                await uploadSatuFoto('fotoAkhirKiri', 'akhir', 'kiri'); 
+                await uploadSatuFoto('fotoAkhirKanan', 'akhir', 'kanan');
+                
+                alert("Data kedatangan telah disimpan dan diserahkan ke User!"); 
+                bootstrap.Modal.getInstance(document.getElementById('modalMasuk')).hide(); 
+                muatDataSecurity();
+            } catch (err) {
+                alert("Gagal memproses data masuk.");
+            } finally { 
+                btn.innerText = "Selesaikan Tugas"; 
+                btn.disabled = false; 
+            }
         });
 
         window.onload = muatDataSecurity;
